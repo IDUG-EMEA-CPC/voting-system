@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  postgresql:
+    build: ./postgresql
+    container_name: vote_db_postgresql
+    restart: always
+    volumes:
+      - ../data:/var/lib/postgresql/data
+    ports:
+      - "6432:5432"

@@ -1,0 +1,114 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} Login {% endblock %}
+
+
+
+{% block content %}
+
+
+<style>
+        .content {
+            background-image:
+              radial-gradient(at center center,#23A9DC66 18%,#1B449499 100%),
+			  url('{{ ASSETS_ROOT }}/vote/background.png');
+
+			background-size: cover;
+			background-color: transparent;
+			background-position: center;
+
+        }
+		.container {
+
+			display: block;
+			margin-left: 38%;
+			margin-right: auto
+
+		}
+		.wrapper {
+		    position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+                -ms-flex-align: center;
+
+            -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                    justify-content: center;
+            overflow: hidden;
+            min-width: 100%;
+            min-height: 100vh;
+		}
+</style>
+
+<div >
+
+	<div  class="content">
+		<div class="card-body text-center" >
+			<img  src="{{ ASSETS_ROOT }}/vote/idug-emea-2025_header.jpg">
+            		</div>
+	</div>
+
+    <br />
+    <br />
+
+    <div class="wrapper">
+        <div class="auth-content">
+            <div class="card">
+                <div class="card-body text-center">
+
+                    <h3 class="mb-4">Login</h3>
+
+                    <span class="mb-0 text-muted">
+                        {% if msg %}
+                            <span class="text-danger">{{ msg | safe }}</span>
+                        {% else %}
+                            Enter your credentials
+                        {% endif %} 
+                    </span>
+
+                    <br />
+                    <br />
+
+                    <form role="form" method="post" action="">
+
+                        {% csrf_token %}                   
+
+                        <div class="input-group mb-3">
+                            {{ form.username }}
+                        </div>
+                        
+                        <div class="input-group mb-4">
+                            {{ form.password }}
+                        </div>
+                        
+                        <button type="submit" name="login" class="btn btn-primary shadow-2 mb-4">Login</button>
+
+                    </form>
+
+
+                    <br />
+
+                    {% if GITHUB_AUTH %}
+                    <div class="mx-2">
+                        <form method="post" action="/social_login/github/login/?next=%2F">
+                            {% csrf_token %}
+                            <button class="btn btn-light" type="submit" style="background-color: #ffffff; border-color: #ffffff;">
+                                <i class="feather icon-github auth-icon"></i></button>
+                        </form>
+                        <span class="mx-1">Sign IN with GitHub</span>
+                    </div>                   
+                    {% endif %}   
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+{% endblock content %}
