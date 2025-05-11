@@ -1,0 +1,124 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Moderator {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <div class="col-sm-12">
+
+                                    <div class="card">
+
+
+                                        <div class="card-header">
+                                            <h5>Session</h5>
+                                        </div>
+
+
+                                        <div class="card-block">
+
+                                            <div class="row">
+
+                                                <div class="col-sm-2 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="sessioncode">Session Code</label>
+                                                        <input type="text" class="form-control" name="sessioncode" id="sessioncode" autocomplete="off" aria-describedby="emailHelp" >
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                    <div class="card">
+
+                                        <div class="card-header">
+                                            <h5>Moderator</h5>
+                                        </div>
+
+
+                                        <div class="card-block">
+
+                                            <div class="row">
+
+                                                <div class="col-sm-4 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="moderator">Moderator Name</label>
+                                                        <input type="text" class="form-control" name="moderator" id="moderator" autocomplete="off" aria-describedby="emailHelp" >
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="speaker">Speaker Name</label>
+                                                        <input type="text" class="form-control" name="speaker" id="speaker" autocomplete="off" aria-describedby="emailHelp" >
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4 mb-4">
+
+                                                </div>
+
+                                                <div class="col-sm-4 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="attendees">Attendees At Start</label>
+                                                        <input type="text" class="form-control" name="attendees" id="attendees" autocomplete="off" aria-describedby="emailHelp" >
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="attendees20">Attendees After 20 Minutes</label>
+                                                        <input type="text" class="form-control" name="attendees20" id="attendees20" autocomplete="off" aria-describedby="emailHelp" >
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-sm-12 mb-2">
+                                                    <div class="form-group">
+                                                        <button type="submit" onclick="save_moderator()" class="btn btn-primary">Save</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

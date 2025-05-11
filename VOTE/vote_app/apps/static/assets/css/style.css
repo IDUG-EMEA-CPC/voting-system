@@ -66,6 +66,15 @@ body {
   position: relative;
 }
 
+.error {
+  border:2px solid red;
+}
+
+.alertify-notifier {
+    top: 100px !important;
+    color: white;
+}
+
 *:focus {
   outline: none;
 }

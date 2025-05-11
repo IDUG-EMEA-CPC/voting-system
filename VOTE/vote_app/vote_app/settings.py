@@ -56,17 +56,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.score',
-    'allauth',                                  # OAuth new
-    'allauth.account',                          # OAuth new
-    'allauth.socialaccount',                    # OAuth new
-    'allauth.socialaccount.providers.github',   # OAuth new
-    'allauth.socialaccount.providers.twitter',  # OAuth new
-    'sslserver',
+    'rest_framework',
+    'django_tables2',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -111,9 +108,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'OPTIONS': {
-            'options': '-c search_path=' + env("DATABASE_NAME")
+            'options': '-c search_path=' + env("DATABASE_SCHEMA_NAME")
         },
-        'NAME': env("DATABASE_SERVER_NAME"),
+        'NAME': env("DATABASE_NAME"),
         'USER': env("DATABASE_USER"),
         'PASSWORD': env("DATABASE_PASSWORD"),
         'HOST': env("DATABASE_HOST"),
@@ -140,6 +137,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_AGE = 3000
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
 
 
 # Internationalization

@@ -1,0 +1,195 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Encode Values {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <div class="col-sm-12">
+
+                                    <div class="card">
+
+
+                                        <div class="card-header">
+                                            <h5>Session</h5>
+                                        </div>
+
+
+                                        <div class="card-block">
+
+                                            <div class="row">
+
+                                                <div class="col-sm-2 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="sessioncode">Session Code</label>
+                                                        <input type="text" class="form-control" name="sessioncode" id="sessioncode" autocomplete="off" aria-describedby="emailHelp" >
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
+
+                                    <div class="col-sm-12">
+                                    <div class="card">
+
+                                        <div class="card-header">
+                                            <h5>Rating</h5>
+                                        </div>
+
+                                        <div class="card-block">
+
+                                            <div class="row">
+
+
+                                                <div class="col-sm-3 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="overall">Overall Session Rating</label>
+                                                        <input type="text" class="form-control" onkeydown="tabenter(event, 'overall')" name="overall" id="overall" autocomplete="off" aria-describedby="emailHelp" >
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="speaker">Speaker Rating</label>
+                                                        <input type="text" class="form-control" onkeydown="tabenter(event, 'speaker')" name="speaker" id="speaker" autocomplete="off" aria-describedby="emailHelp" >
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="material">Presentation Material Rating</label>
+                                                        <input type="text" class="form-control" onkeydown="tabenter(event, 'material')" name="material" id="material" autocomplete="off" aria-describedby="emailHelp" >
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="expectation">Did Presentation Meet Expectations</label>
+                                                        <input type="text" class="form-control" onkeydown="tabenter(event, 'expectation')" name="expectation" id="expectation" autocomplete="off" aria-describedby="emailHelp" >
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-sm-6 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="name">Name</label>
+                                                        <input type="text" class="form-control" onkeydown="tabenter(event, 'name')" name="name" id="name" autocomplete="off" aria-describedby="emailHelp" >
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="company">Company</label>
+                                                        <input type="text" class="form-control" onkeydown="tabenter(event, 'company')" name="company" id="company" autocomplete="off" aria-describedby="emailHelp" >
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-sm-12 mb-4">
+                                                    <div class="form-group">
+                                                        <label for="comments">Comments</label>
+                                                        <textarea type="text" class="form-control" onkeydown="tabenter(event, 'comments')" name="comments" id="comments" autocomplete="off" aria-describedby="emailHelp" ></textarea>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-sm-6 mb-2">
+                                                    <div class="form-group">
+                                                        <button type="submit" onclick="save_value()" class="btn btn-primary">Save</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-xl-12 col-md-12">
+                                    <div class="card user-list">
+                                        <div class="card-header">
+                                            <h5>Rating</h5>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="row">
+
+
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+
+{% endblock content %}
+
+
+
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script type="text/javascript">
+    function tabenter(e, id) {
+        if (e.shiftKey && e.key === 'Tab') {
+            if (id === 'overall') {
+                comments.focus();
+                e.preventDefault();
+            }
+            return;
+        }
+
+        if (e.key === 'Tab') {
+            if (id === 'comments') {
+                overall.focus();
+                e.preventDefault();
+                save_value();
+            }
+            return;
+        }
+
+        if (e.key === 'Enter') {
+            save_value();
+            return;
+        }
+    }
+</script>
+
+{% endblock javascripts %}
+
+
