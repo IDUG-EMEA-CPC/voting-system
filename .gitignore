@@ -1,0 +1,4 @@
+/venv/
+/data/
+/VOTE/vote_app/apps/score/migrations/
+/VOTE/vote_app/models.out

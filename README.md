@@ -94,12 +94,12 @@ The file should contain something like:
 ```
 SECRET_KEY=
 
-DATABASE_SERVER_NAME=
+DATABASE_NAME=
 DATABASE_USER=
 DATABASE_PASSWORD=
 DATABASE_HOST=
 DATABASE_PORT=
-DATABASE_NAME=
+DATABASE_SCHEMA_NAME=
 
 ALLOWED_HOSTS=
 ADMIN_INTERFACE=
@@ -113,7 +113,7 @@ DEBUG=
 
 ## Database initialisation
 
-* Create a new database
+* Create a new database (with the schema 'vote')
 * Specify the server and database name in .env
 * Initialise database tables
 
@@ -121,6 +121,10 @@ DEBUG=
 
 
     /!\ Only if database is not already populated.
+
+* Generate the model
+
+  `python manage.py inspectdb > models.out`
 
 
 * Add superuser 
