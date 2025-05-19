@@ -45,11 +45,16 @@ def index(request):
             context['session_percent'] = session_percent
 
             # best session
-            best_session = Best_Session.objects.all()
+            if Best_Session.objects.all().count() > 0:
+                best_session = Best_Session.objects.all()
 
-            context['best_sessioncode'] = best_session[0].sessioncode
-            context['best_speaker'] = best_session[0].primarypresenterfullname
-            context['best_rating'] = round(best_session[0].rating, 4)
+                context['best_sessioncode'] = best_session[0].sessioncode
+                context['best_speaker'] = best_session[0].primarypresenterfullname
+                context['best_rating'] = round(best_session[0].rating, 4)
+            else:
+                context['best_sessioncode'] = "None"
+                context['best_speaker'] = ""
+                context['best_rating'] = 0.0000
 
             #track summary
             track_summary = Session.objects.annotate(first=Substr('sessioncode', 1, 1)).values('first').annotate(cnt=Count('sessioncode')).order_by('first')
@@ -83,7 +88,17 @@ def index(request):
             # best session
             context['best_sessioncode'] = "None"
             context['best_speaker'] = ""
-            context['best_rating'] = 0
+            context['best_rating'] = 0.0000
+
+            track_summary = Session.objects.annotate(first=Substr('sessioncode', 1, 1)).values('first').annotate(cnt=Count('sessioncode')).order_by('first')
+            i = 0
+            for track in track_summary:
+                track_summary[i]['nb'] = 0
+                track_summary[i]['percent'] = 0
+                i += 1
+
+            context['tracks'] = track_summary
+
 
 
         template = loader.get_template('home/index.html')
