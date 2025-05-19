@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'apps.score',
     'rest_framework',
     'django_tables2',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [

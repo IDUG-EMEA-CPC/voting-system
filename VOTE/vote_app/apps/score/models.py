@@ -92,3 +92,32 @@ class Sessionmoderator(models.Model):
     managed = False
     db_table = 'SessionModerator'
 
+
+
+class Best_Session(models.Model):
+    sessioncode = models.CharField(db_column='sessioncode', primary_key=True, max_length=10)
+    primarypresenterfullname = models.CharField(db_column='primarypresenterfullname', max_length=200, blank=True, null=True)
+    primarypresentercompany = models.CharField(db_column='primarypresentercompany', max_length=200, blank=True, null=True)
+    secondarypresenterpanelistfullname = models.CharField(db_column='secondarypresenterpanelistfullname', max_length=200, blank=True, null=True)
+    secondarypresenterpanelistcompany = models.CharField(db_column='secondarypresenterpanelistcompany', max_length=200, blank=True, null=True)
+    companytypecode = models.CharField(db_column='companytypecode', max_length=1)
+    rating = models.FloatField(db_column='rating', blank=True, null=True)
+    rank = models.IntegerField(db_column='rank', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = "best_session"
+
+
+class Tracks(models.Model):
+    sessioncode = models.CharField(db_column='sessioncode', primary_key=True, max_length=10)
+    speaker = models.CharField(db_column='speaker', max_length=200, blank=True, null=True)
+    nb_eval = models.IntegerField(db_column='nb_eval', blank=True, null=True)
+    rating = models.FloatField(db_column='rating', blank=True, null=True)
+    rank = models.IntegerField(db_column='rank', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = "tracks"
+
+

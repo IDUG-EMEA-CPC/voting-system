@@ -5,6 +5,8 @@
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 
+
+
 {% block content %}
 
 
@@ -17,6 +19,7 @@
                     <div class="main-body">
                         <div class="page-wrapper">
                             <!-- [ Main Content ] start -->
+
                             <div class="row">
                                 <div class="col-sm-12">
 
@@ -35,7 +38,7 @@
                                                 <div class="col-sm-2 mb-4">
                                                     <div class="form-group">
                                                         <label for="sessioncode">Session Code</label>
-                                                        <input type="text" class="form-control" name="sessioncode" id="sessioncode" autocomplete="off" aria-describedby="emailHelp" >
+                                                        <input type="text" value="{% if session_code != None %}{{ session_code }}{% else %}{% endif %}" class="form-control" onkeydown="tabenter(event, 'sessioncode')" name="sessioncode" id="sessioncode" autocomplete="off" aria-describedby="emailHelp" >
                                                     </div>
                                                 </div>
 
@@ -127,12 +130,15 @@
                                 <div class="col-xl-12 col-md-12">
                                     <div class="card user-list">
                                         <div class="card-header">
-                                            <h5>Rating</h5>
+                                            <h5>Evaluation</h5>
                                         </div>
                                         <div class="card-block">
                                             <div class="row">
 
 
+                                                <div class="content">
+                                                    <div id="results" style="min-height: 400px;margin-top:10px"></div>
+                                                </div>
 
 
                                             </div>
@@ -146,6 +152,8 @@
 
                             </div>
                             <!-- [ Main Content ] end -->
+
+
                         </div>
                     </div>
                 </div>
@@ -155,16 +163,28 @@
     </div>
     <!-- [ Main Content ] end -->
 
+<div id="modal-view" class="modal-view">
+
+</div>
+
 
 {% endblock content %}
-
 
 
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
+<script>
+        $( document ).ready(function() {
+            refresh_value_table();
+            return;
+        });
+</script>
+
 <script type="text/javascript">
+
+
     function tabenter(e, id) {
         if (e.shiftKey && e.key === 'Tab') {
             if (id === 'overall') {
@@ -184,6 +204,10 @@
         }
 
         if (e.key === 'Enter') {
+            if (id === 'sessioncode') {
+                refresh_value_table();
+                return;
+            }
             save_value();
             return;
         }

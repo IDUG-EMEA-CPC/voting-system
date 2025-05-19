@@ -118,8 +118,7 @@ SELECT
 FROM
     (   SELECT
             x."SessionCode",
-            ROUND(AVG(x."ScoreTotal"::NUMERIC(3,1) / x."ScoreCount"::NUMERIC), 2)::NUMERIC(3,2) AS
-            "Rating"
+            ROUND(AVG(x."ScoreTotal" / x."ScoreCount"), 2) AS "Rating"
         FROM
             (   SELECT
                     "SessionEVAL"."SessionCode",
@@ -153,6 +152,62 @@ FROM
 JOIN
     "Session" e
 ON
-    y."SessionCode"::TEXT = e."SessionCode"::TEXT
+    y."SessionCode" = e."SessionCode"
 WHERE
-    e."CompanyTypeCode" = 'U'::bpchar;
+    e."CompanyTypeCode" = 'U';
+
+
+CREATE VIEW
+    "vote".tracks
+    (
+        SessionCode,
+        speaker,
+        nb_eval,
+        rating,
+        rank
+    )
+    AS
+
+SELECT
+    y."SessionCode"                        AS sessioncode,
+    e."PrimaryPresenterFullName" || coalesce(' (' || e."PrimaryPresenterCompany" || ')','') || coalesce(', ' || e."SecondaryPresenterPanelistFullName" || coalesce(' (' || e."SecondaryPresenterPanelistCompany" || ')','') ,'') AS speaker,
+    t."nb_eval"                            AS nb_eval,
+    y."Rating"                             AS rating,
+    RANK() OVER (ORDER BY y."Rating" DESC) AS RANK
+FROM
+    (   SELECT
+            x."SessionCode",
+            ROUND(AVG(x."ScoreTotal" / x."ScoreCount"), 2) AS "Rating"
+        FROM
+            (   SELECT
+                    "SessionEVAL"."SessionCode",
+                    COALESCE("SessionEVAL"."OverallRating", 0) + COALESCE
+                    ("SessionEVAL"."SpeakerRating", 0) + COALESCE("SessionEVAL"."MaterialRating", 0
+                    ) AS "ScoreTotal",
+                    CASE
+                        WHEN "SessionEVAL"."OverallRating" IS NULL
+                        THEN 0
+                        ELSE 1
+                    END +
+                    CASE
+                        WHEN "SessionEVAL"."SpeakerRating" IS NULL
+                        THEN 0
+                        ELSE 1
+                    END +
+                    CASE
+                        WHEN "SessionEVAL"."MaterialRating" IS NULL
+                        THEN 0
+                        ELSE 1
+                    END AS "ScoreCount"
+                FROM
+                    "SessionEVAL"
+                WHERE
+                    COALESCE("SessionEVAL"."OverallRating", "SessionEVAL"."SpeakerRating",
+                    "SessionEVAL"."MaterialRating") IS NOT NULL) x
+        GROUP BY
+            x."SessionCode"
+        ) y
+JOIN "Session" e ON y."SessionCode" = e."SessionCode"
+LEFT JOIN (select e."SessionCode" ,  count(*) as nb_eval
+           from vote."SessionEVAL" e
+           group by e."SessionCode" ) t ON t."SessionCode" = e."SessionCode";

@@ -81,6 +81,16 @@ function check_data(reset=false){
     }
 
 
+    //    checking that something is filled
+    if ($('#overall').val() == "" &&
+        $('#speaker').val() == "" &&
+        $('#material').val() == "" &&
+        $('#expectation').val() == "") {
+        alertify.error('Everything is empty')
+        filled = false
+        result = result && filled
+    }
+
     return result;
 
 }
@@ -97,7 +107,6 @@ function save_value() {
 
 function save_data() {
     console.log('overall', $('#overall').val());
-    //showLoader();
     $.ajax({
         beforeSend: function(request) {
             request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
@@ -109,8 +118,7 @@ function save_data() {
             console.log("success");
             console.log(data)
             alertify.success('New vote inserted.')
-            //hideLoader();
-            //search();
+            refresh_value_table();
 
             reset();
 
@@ -119,7 +127,6 @@ function save_data() {
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
-            //hideLoader();
             data = xhr.responseJSON
             if (data !== undefined) {
                 console.log(data)
@@ -133,7 +140,7 @@ function save_data() {
             }
 
             alertify.error(error);
-            //search();
+            //refresh_value_table();
             return false;
 
         }
@@ -150,7 +157,9 @@ function get_data() {
             expectation : $('#expectation').val(),
             name : $('#name').val(),
             company : $('#company').val(),
-            comments : $('#comments').val()
+            comments : $('#comments').val(),
+
+            url : window.location.href
 
         }
 }
@@ -180,29 +189,24 @@ function save_moderator(){
 
 
 
-function search() {
-    showLoader();
+function refresh_value_table() {
+    console.log('refresh')
 
-    console.log(reset)
-
-    console.log(get_data())
     $.ajax({
         beforeSend: function(request) {
             request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
         },
-        url : "search",
+        url : "refresh_values",
         type : "POST",
         data : get_data(),
 
         success : function(data) {
             console.log("success");
             $("#results").html(data);
-            hideLoader();
         },
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
-            hideLoader();
 
             data = xhr.responseJSON
             if (data !== undefined) {
@@ -230,17 +234,18 @@ function search() {
 
 
 
-function request_new() {
 
-    showLoader();
+function value_edit(sessioneval_id) {
 
     $.ajax({
         beforeSend: function(request) {
             request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
         },
-        url : "get_modal_new_data",
+        url : "get_modal_edit_value",
         type : "POST",
         data : {
+            sessioneval_id : sessioneval_id
+
         },
 
         success : function(data) {
@@ -257,86 +262,46 @@ function request_new() {
                 }
             }
 
-            hideLoader();
         },
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
-            hideLoader();
             alertify.error(errmsg)
         }
     });
 
 }
 
-function add_modal(item, item_id, label) {
 
-    showLoader();
-
-    $.ajax({
-        beforeSend: function(request) {
-            request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-        },
-        url : "get_modal",
-        type : "POST",
-        data : {
-            item : item,
-            item_id : item_id,
-            label: label
-        },
-
-        success : function(data) {
-            console.log("success");
-            console.log(data);
-            $("#modal-view").html(data);
-            $("#modal-view").show();
-
-            var modal = document.getElementById("modal-view");
-
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    close_modal()
-                }
-            }
-
-            hideLoader();
-        },
-
-        // handle a non-successful response
-        error : function(xhr,errmsg,err) {
-            hideLoader();
-            alertify.error(errmsg)
-        }
-    });
-
-}
-
-function store_modal(item, item_id, label) {
-
-    showLoader();
+function save_edit_value(sessioneval_id) {
 
     $.ajax({
         beforeSend: function(request) {
             request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
         },
-        url : "store_modal",
+        url : "update_modal_edit_value",
         type : "POST",
         data : {
-            item : item,
-            code : $('#modal-content #code').val(),
-            name : $('#modal-content #name').val()
+            sessioneval_id : sessioneval_id,
+            overall : $('#modal-content #overall').val(),
+            speaker : $('#modal-content #speaker').val(),
+            material : $('#modal-content #material').val(),
+            expectation : $('#modal-content #expectation').val(),
+            name : $('#modal-content #name').val(),
+            company : $('#modal-content #company').val(),
+            comments : $('#modal-content #comments').val()
+
         },
 
         success : function(data) {
             console.log("success");
-            hideLoader();
-            alertify.success('New value inserted.')
-            refresh_generic(item, item_id, label)
+            alertify.success('Vote Updated')
+            close_modal()
+            refresh_value_table()
         },
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
-            hideLoader();
             data = xhr.responseJSON
             if (data !== undefined) {
                 console.log(data)
@@ -357,34 +322,73 @@ function store_modal(item, item_id, label) {
 }
 
 
-function refresh_generic(item, item_id, label) {
-
-    showLoader();
+function value_delete(sessioneval_id) {
 
     $.ajax({
         beforeSend: function(request) {
             request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
         },
-        url : "refresh_generic",
+        url : "get_modal_delete_value",
         type : "POST",
         data : {
-            item : item,
-            item_id: item_id,
-            label : label
+            sessioneval_id : sessioneval_id
 
         },
 
         success : function(data) {
             console.log("success");
             console.log(data);
-            $('#'+item_id).html(data);
-            hideLoader();
-            alertify.success('Values loaded.')
+            $("#modal-view").html(data);
+            $("#modal-view").show();
+
+            var modal = document.getElementById("modal-view");
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    close_modal()
+                }
+            }
+
         },
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
-            hideLoader();
+            alertify.error(errmsg)
+        }
+    });
+
+}
+
+
+function delete_edit_value(sessioneval_id) {
+
+    $.ajax({
+        beforeSend: function(request) {
+            request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        },
+        url : "delete_modal_edit_value",
+        type : "POST",
+        data : {
+            sessioneval_id : sessioneval_id,
+            overall : $('#modal-content #overall').val(),
+            speaker : $('#modal-content #speaker').val(),
+            material : $('#modal-content #material').val(),
+            expectation : $('#modal-content #expectation').val(),
+            name : $('#modal-content #name').val(),
+            company : $('#modal-content #company').val(),
+            comments : $('#modal-content #comments').val()
+
+        },
+
+        success : function(data) {
+            console.log("success");
+            alertify.success('Vote Deleted')
+            close_modal()
+            refresh_value_table()
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
             data = xhr.responseJSON
             if (data !== undefined) {
                 console.log(data)
@@ -403,6 +407,56 @@ function refresh_generic(item, item_id, label) {
     });
 
 }
+
+
+function refresh_session_table() {
+    console.log('refresh')
+
+    $.ajax({
+        beforeSend: function(request) {
+            request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        },
+        url : "refresh_sessions",
+        type : "POST",
+        data : {
+                url : window.location.href
+        },
+
+        success : function(data) {
+            console.log("success");
+            $("#results_sessions").html(data);
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            data = xhr.responseJSON
+            if (data !== undefined) {
+                console.log(data)
+                if ('message' in data) {
+                    error = data['message']
+                } else {
+                    error = errmsg
+                }
+            } else {
+                if(err == "Forbidden") {
+                    error = 'You do not have the rights to execute this operation. Please contact the administrator.'
+                }
+                else {
+                    error = 'An unexpected error occured. Please retry. If the issue still occurs, contact your administrator.'
+                }
+
+            }
+
+            alertify.error(error);
+            return false;
+        }
+    });
+};
+
+
+
+
 
 function import_xls_modal() {
     console.log('import xls')
@@ -446,3 +500,9 @@ function import_xls_modal() {
     });
 
 }
+
+
+
+
+
+

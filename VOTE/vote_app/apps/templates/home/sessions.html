@@ -1,0 +1,84 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} List of Sessions {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+
+{% block content %}
+
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+
+                            <div class="row">
+
+
+                                <div class="col-xl-12 col-md-12">
+                                    <div class="card user-list">
+                                        <div class="card-header">
+                                            <h5>Sessions</h5>
+                                        </div>
+                                        <div class="card-block">
+                                            <div class="row">
+
+
+                                                <div class="content">
+                                                    <div id="results_sessions" style="min-height: 400px;margin-top:10px"></div>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                            <!-- [ Main Content ] end -->
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+<div id="modal-view" class="modal-view">
+
+</div>
+
+
+{% endblock content %}
+
+
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script>
+        $( document ).ready(function() {
+            refresh_session_table();
+            return;
+        });
+</script>
+
+
+{% endblock javascripts %}
+
+
