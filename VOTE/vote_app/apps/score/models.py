@@ -83,6 +83,7 @@ class Sessioneval(models.Model):
 
 
 class Sessionmoderator(models.Model):
+  # id = models.IntegerField(primary_key=True)
   sessioncode = models.OneToOneField(Session, models.DO_NOTHING, db_column='SessionCode')  # Field name made lowercase.
   startcount = models.IntegerField(db_column='StartCount')  # Field name made lowercase.
   midcount = models.IntegerField(db_column='MidCount')  # Field name made lowercase.

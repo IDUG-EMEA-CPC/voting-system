@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 
-from ..views import views_login, views, views_add, views_modal, views_sessions
+from ..views import views_login, views, views_add, views_modal, views_sessions, views_moderator
 
 
 urlpatterns = [
@@ -31,6 +31,7 @@ urlpatterns = [
 
     path('refresh_sessions', views_sessions.refresh_sessions, name='refresh_sessions'),
 
+    path('refresh_moderator', views_moderator.refresh_moderator, name='refresh_moderator'),
 
 
 ]

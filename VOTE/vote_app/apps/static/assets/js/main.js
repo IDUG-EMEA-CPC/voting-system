@@ -455,6 +455,55 @@ function refresh_session_table() {
 };
 
 
+function refresh_moderator() {
+    console.log('refresh')
+
+    $.ajax({
+        beforeSend: function(request) {
+            request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        },
+        url : "refresh_moderator",
+        type : "POST",
+        data : {
+            sessioncode : $('#sessioncode').val()
+        },
+
+        success : function(data) {
+            console.log("success");
+            $('#moderator').val(data['moderator']);
+            $("#speaker").val(data['speaker']);
+            $("#attendees").val(data['startcount']);
+            $("#attendees20").val(data['midcount']);
+
+            $("#attendees").focus();
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            data = xhr.responseJSON
+            if (data !== undefined) {
+                console.log(data)
+                if ('message' in data) {
+                    error = data['message']
+                } else {
+                    error = errmsg
+                }
+            } else {
+                if(err == "Forbidden") {
+                    error = 'You do not have the rights to execute this operation. Please contact the administrator.'
+                }
+                else {
+                    error = 'An unexpected error occured. Please retry. If the issue still occurs, contact your administrator.'
+                }
+
+            }
+
+            alertify.error(error);
+            return false;
+        }
+    });
+};
 
 
 

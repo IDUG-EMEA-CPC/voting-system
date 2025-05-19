@@ -34,7 +34,7 @@
                                                 <div class="col-sm-2 mb-4">
                                                     <div class="form-group">
                                                         <label for="sessioncode">Session Code</label>
-                                                        <input type="text" class="form-control" name="sessioncode" id="sessioncode" autocomplete="off" aria-describedby="emailHelp" >
+                                                        <input type="text" class="form-control" onkeydown="enter(event, 'sessioncode')" name="sessioncode" id="sessioncode" autocomplete="off" aria-describedby="emailHelp" >
                                                     </div>
                                                 </div>
 
@@ -121,4 +121,22 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+
+<script type="text/javascript">
+
+
+    function enter(e, id) {
+
+        if (e.key === 'Enter') {
+            if (id === 'sessioncode') {
+                refresh_moderator();
+            }
+            return;
+        }
+    }
+</script>
+
+
+
+{% endblock javascripts %}
