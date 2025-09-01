@@ -116,7 +116,6 @@ function save_data() {
         data : get_data(),
         success : function(data) {
             console.log("success");
-            console.log(data)
             alertify.success('New vote inserted.')
             refresh_value_table();
 
@@ -250,7 +249,6 @@ function value_edit(sessioneval_id) {
 
         success : function(data) {
             console.log("success");
-            console.log(data);
             $("#modal-view").html(data);
             $("#modal-view").show();
 
@@ -337,7 +335,6 @@ function value_delete(sessioneval_id) {
 
         success : function(data) {
             console.log("success");
-            console.log(data);
             $("#modal-view").html(data);
             $("#modal-view").show();
 
@@ -504,6 +501,57 @@ function refresh_moderator() {
         }
     });
 };
+
+
+
+function session(session_code) {
+
+    console.log(session_code)
+
+    $.ajax({
+        beforeSend: function(request) {
+            request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        },
+        url : "session",
+        type : "GET",
+        data : {
+            sessioncode : session_code
+        },
+
+        success : function(data) {
+            console.log("success");
+            $("#results").html(data);
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            data = xhr.responseJSON
+            if (data !== undefined) {
+                console.log(data)
+                if ('message' in data) {
+                    error = data['message']
+                } else {
+                    error = errmsg
+                }
+            } else {
+                if(err == "Forbidden") {
+                    error = 'You do not have the rights to execute this operation. Please contact the administrator.'
+                }
+                else {
+                    error = 'An unexpected error occured. Please retry. If the issue still occurs, contact your administrator.'
+                }
+
+            }
+
+            alertify.error(error);
+            return false;
+        }
+    });
+
+};
+
+
 
 
 

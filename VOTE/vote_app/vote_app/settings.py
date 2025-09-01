@@ -34,7 +34,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = env.bool("DEBUG")
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -42,7 +42,7 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(',')
 ADMIN_INTERFACE = env("ADMIN_INTERFACE")
 
 # Assets Management
-ASSETS_ROOT = env('ASSETS_ROOT')
+ASSETS_ROOT = env("ASSETS_ROOT")
 
 
 

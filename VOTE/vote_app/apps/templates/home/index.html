@@ -134,9 +134,13 @@
                                                 {% for row in track.detail %}
 
                                                 <tr>
+
                                                     <td>
-                                                        <h6 class="m-0">{{row.sessioncode}}</h6>
+                                                        <a href="encode_values?session={{row.sessioncode}}">
+                                                        {{row.sessioncode}}
+                                                        </a>
                                                     </td>
+
                                                     <td>
                                                         <h6 class="m-0">{{row.speaker}}</h6>
                                                     </td>

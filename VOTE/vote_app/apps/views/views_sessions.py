@@ -25,7 +25,7 @@ def refresh_sessions(request):
         # retrieving parameters
         x = RequestParameters()  # generic class for request parameters
 
-        for key in ['sessioncode', 'url']:
+        for key in ['url']:
             setattr(x, key, retrieve_value_from_session(request, key))
 
         context = init_response_context(request)
@@ -37,7 +37,7 @@ def refresh_sessions(request):
 
             sessions = SessionTable(sessions_items)
 
-            RequestConfig(request, paginate={"per_page": 13}).configure(sessions)
+            RequestConfig(request, paginate={"per_page": 10}).configure(sessions)
 
             sessions.page = sessions.page.paginator.get_page(page)
 
@@ -46,7 +46,7 @@ def refresh_sessions(request):
 
             sessions = SessionTable(sessions_items)
 
-            RequestConfig(request, paginate={"per_page": 13}).configure(sessions)
+            RequestConfig(request, paginate={"per_page": 10}).configure(sessions)
 
         return render(request, 'tables/table_session.html', {'items': sessions})
     else:

@@ -186,6 +186,15 @@
 
 
     function tabenter(e, id) {
+        if (e.key === 'Tab') {
+            if (id === 'sessioncode') {
+                refresh_value_table();
+                overall.focus();
+                e.preventDefault();
+                return;
+            }
+        }
+
         if (e.shiftKey && e.key === 'Tab') {
             if (id === 'overall') {
                 comments.focus();
@@ -206,11 +215,13 @@
         if (e.key === 'Enter') {
             if (id === 'sessioncode') {
                 refresh_value_table();
+                overall.focus();
                 return;
             }
             save_value();
             return;
         }
+
     }
 </script>
 

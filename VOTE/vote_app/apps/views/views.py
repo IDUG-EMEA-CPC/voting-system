@@ -71,7 +71,7 @@ def index(request):
                         track_summary[i]['nb'] = count
                         track_summary[i]['percent'] = round((count/track['cnt'])*100 , 2)
                         # track detail
-                        detail = Tracks.objects.annotate(first=Substr('sessioncode', 1, 1)).filter(first=track['first']).values().order_by('first', 'sessioncode')
+                        detail = Tracks.objects.annotate(first=Substr('sessioncode', 1, 1)).filter(first=track['first']).values().order_by('-rating')
                         track_summary[i]['detail'] = detail
 
                 i += 1
@@ -112,7 +112,15 @@ def encode_values(request):
     if request.user.is_authenticated:
         if request.GET:
 
-            sessioncode = request.session['session_code']
+            try:
+                session = request.GET['session']
+            except Exception as e:
+                session = None
+
+            if session != None:
+                sessioncode = session
+            else:
+                sessioncode = request.session['session_code']
 
             template = loader.get_template('home/encode_values.html')
             context = {'segment': 'encode', 'session_code': sessioncode}
@@ -124,7 +132,6 @@ def encode_values(request):
             return HttpResponse(template.render(context, request))
     else:
         return redirect(login)
-
 
 
 def sessions(request):

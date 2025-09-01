@@ -39,7 +39,7 @@ class SessionEvalTable(tables.Table):
 
 
 class SessionTable(tables.Table):
-    sessioncode = tables.Column(verbose_name="Session Code", orderable=False)
+    sessioncode = TemplateColumn(template_name='tables/value_session.html', verbose_name="Session Code", orderable=False)
     sessiontitle = tables.Column(verbose_name="Title", orderable=False)
     primarypresenterfullname = tables.Column(verbose_name="First Speaker", orderable=False)
     primarypresentercompany = tables.Column(verbose_name="Company", orderable=False)
