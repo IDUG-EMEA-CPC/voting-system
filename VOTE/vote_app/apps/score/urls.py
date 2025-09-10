@@ -14,7 +14,7 @@ urlpatterns = [
     path('index', views.index, name='index'),
     path('sessions', views.sessions, name='form'),
     path('encode_values', views.encode_values, name='value'),
-    path('moderator', views.moderator, name='moderator'),
+    path('encode_moderator', views.moderator, name='moderator'),
 
 
     # ajax methods

@@ -1,0 +1,107 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}Moderator Sign-up{% endblock %}
+{% block stylesheets %}{% endblock %}
+
+{% block content %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <div class="row">
+                    <div class="col-xl-12 col-md-12">
+                        <div class="card user-list">
+                            <div class="card-header">
+                                <h5>Moderator Sign-up</h5>
+                            </div>
+                            <div class="card-block">
+
+<div class="info-box-custom">
+    <!-- Left: Top (image) + Bottom (text) -->
+    <div class="info-left">
+        <img src="{{ ASSETS_ROOT }}/images/idug.png" >
+        <div class="info-left-bottom">
+            <strong>Dusseldorf</strong><br>
+            October 26 - 30
+        </div>
+    </div>
+
+    <!-- Right: Main text -->
+    <div class="info-right">
+        <div class="text">
+            <p class="lead text-body-secondary">
+                Session moderators are essential to the success of each and every IDUG conference and you can help.
+            </p>
+            <p class="lead text-body-secondary">
+                Please select sessions you would like to moderate.
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <div class="position-relative">
+  <i class="bi bi-search search-icon"></i>
+  <input type="text" class="form-control ps-5" id="search" placeholder="Search..." autocomplete="off" oninput="filter()" value="{{ currentSearch|default:'' }}">
+</div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="content">
+                                        <div id="results_moderators" style="min-height: 400px; margin-top:10px;">
+                                            {% include "tables/table_moderator.html" %}
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div> <!-- card-block -->
+                        </div> <!-- card -->
+                    </div> <!-- col -->
+                </div> <!-- row -->
+            </div> <!-- page-wrapper -->
+        </div> <!-- main-body -->
+    </div> <!-- pcoded-inner-content -->
+</div> <!-- pcoded-content -->
+
+<div id="modal-view" class="modal-view">
+
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    let currentSearch = '{{ currentSearch|default:'' }}';
+    let lastSearch = currentSearch;
+
+    function filter() {
+        currentSearch = $('#search').val();
+
+        if (currentSearch !== lastSearch) {
+            lastSearch = currentSearch;
+            refresh_moderator_table(true); // Reset to page 1
+        } else {
+            refresh_moderator_table(false); // Keep current page
+        }
+    }
+
+    $(document).ready(function () {
+        refresh_moderator_table();
+
+        // Delegate pagination clicks
+        $(document).on('click', '#results_moderators .pagination a', function (e) {
+            e.preventDefault();
+            const pageUrl = $(this).attr('href');
+            history.pushState(null, '', pageUrl); // Optional: update browser URL
+            refresh_moderator_table();
+        });
+    });
+</script>
+{% endblock %}

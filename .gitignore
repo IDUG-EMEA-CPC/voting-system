@@ -2,3 +2,6 @@
 /data/
 /VOTE/vote_app/apps/score/migrations/
 /VOTE/vote_app/models.out
+/VOTE/moderator_app/apps/selection/migrations/
+/VOTE/moderator_app/models.out
+

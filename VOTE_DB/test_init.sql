@@ -211,3 +211,30 @@ JOIN "Session" e ON y."SessionCode" = e."SessionCode"
 LEFT JOIN (select e."SessionCode" ,  count(*) as nb_eval
            from vote."SessionEVAL" e
            group by e."SessionCode" ) t ON t."SessionCode" = e."SessionCode";
+
+
+CREATE VIEW
+    "vote".moderators
+    (
+        sessioncode,
+        sessiontitle,
+        speaker,
+        search
+    )
+    AS
+
+with temp1 as (
+select "SessionCode" AS sessioncode,
+    "SessionTitle" as sessiontitle,
+    ("PrimaryPresenterFullName"::TEXT || COALESCE((' ('::TEXT || "PrimaryPresenterCompany"::
+    TEXT) || ')'::TEXT, ''::TEXT)) || COALESCE((', '::TEXT ||
+    "SecondaryPresenterPanelistFullName"::TEXT) || COALESCE((' ('::TEXT ||
+    "SecondaryPresenterPanelistCompany"::TEXT) || ')'::TEXT, ''::TEXT), ''::TEXT) AS speaker
+from "vote"."Session"
+), temp2 as (
+select sessioncode, sessiontitle, speaker, sessioncode || ' ' || sessiontitle || ' ' || speaker as search
+from temp1
+)
+
+select sessioncode, sessiontitle, speaker, search
+from temp2

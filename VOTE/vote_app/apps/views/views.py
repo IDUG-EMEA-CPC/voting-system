@@ -145,7 +145,7 @@ def sessions(request):
 
 def moderator(request):
     if request.user.is_authenticated:
-        template = loader.get_template('home/moderator.html')
+        template = loader.get_template('home/encode_moderator.html')
         context = {'segment': 'moderator'}
         return HttpResponse(template.render(context, request))
     else:

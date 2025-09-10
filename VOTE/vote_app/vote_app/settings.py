@@ -181,3 +181,20 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'apps/static/assets')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+CSRF_COOKIE_SECURE = True
+# Optional, only if you want to explicitly scope cookie domain
+# CSRF_COOKIE_DOMAIN = "moderator.idugemea.eu"
+
+# Enforce HTTPS
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+
+# Security Headers
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
