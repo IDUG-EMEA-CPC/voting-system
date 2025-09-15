@@ -3,49 +3,65 @@
 
     <span id="modal-content">
 
-        <div class="col-sm-12">
-            <div class="card">
+    <div class="card">
+        <div class="card-header">
+            <h5>Moderator</h5>
+        </div>
 
-                <div class="card-header">
-                    <h5>Moderator</h5>
+        <div class="card-body">
+            <div class="row">
+                <!-- Left Column (Info) -->
+                <div class="col-md-5 mb-4">
+                    <h6>{{ session_id }} - {{ session_title }}</h6>
+                    <p class="text-muted">
+                        {{ session_date }} {{ session_time }}
+                    </p>
+
+                    <h6>{{ platform }}</h6>
+                    <p class="text-muted">
+                        {{ speaker }}
+                    </p>
                 </div>
 
-                <div class="card-block">
-
-                    <div class="row">
-
-
-                        <div class="col-sm-12 mb-4">
-                            <div class="form-group">
-                                <label for="moderator_name">Moderator Name</label>
-                                <input type="text" value="{% if moderator_name != None %}{{ moderator_name }}{% else %}{% endif %}" class="form-control" name="moderator_name" id="moderator_name" autocomplete="off" maxlength="100" aria-describedby="emailHelp" >
-                            </div>
-                        </div>
-
-
-                        <div class="col-sm-12 mb-4">
-                            <div class="form-group">
-                                <label for="moderator_email">Moderator Email</label>
-                                <input type="text" value="{% if moderator_email != None %}{{ moderator_email }}{% else %}{% endif %}" class="form-control" name="moderator_email" id="moderator_email" autocomplete="off" maxlength="50" aria-describedby="emailHelp" >
-                            </div>
-                        </div>
-
-
-
-                        <div class="col-sm-6 mb-2">
-                            <div class="form-group">
-                                <button type="submit" onclick="save_edit_value('{{session_id}}')" class="btn btn-primary">Update</button>
-                                <button type="submit" onclick="close_modal()" id="button_cancel" class="btn btn-secondary">Cancel</button>
-                            </div>
-                        </div>
-
+                <!-- Right Column (Form) -->
+                <div class="col-md-7 mb-4">
+                    <div class="form-group mb-3">
+                        <label for="moderator_name">Moderator Name</label>
+                        <input type="text"
+                               value="{% if moderator_name != None %}{{ moderator_name }}{% endif %}"
+                               class="form-control"
+                               name="moderator_name"
+                               id="moderator_name"
+                               autocomplete="off"
+                               maxlength="100">
                     </div>
 
+                    <div class="form-group mb-3">
+                        <label for="moderator_email">Moderator Email</label>
+                        <input type="text"
+                               value="{% if moderator_email != None %}{{ moderator_email }}{% endif %}"
+                               class="form-control"
+                               name="moderator_email"
+                               id="moderator_email"
+                               autocomplete="off"
+                               maxlength="50">
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <button type="submit"
+                                onclick="save_edit_value('{{session_id}}')"
+                                class="btn btn-primary me-2">Update</button>
+                        <button type="button"
+                                onclick="close_modal()"
+                                class="btn btn-secondary">Cancel</button>
+                    </div>
                 </div>
-
-
             </div>
         </div>
+    </div>
+
+
+
 
   </span>
 </div>

@@ -104,6 +104,10 @@ function value_edit(session_id) {
             $("#modal-view").html(data);
             $("#modal-view").show();
 
+            setTimeout(function() {
+                    $("#moderator_name").focus();
+            }, 200);
+
             var modal = document.getElementById("modal-view");
 
             window.onclick = function(event) {
