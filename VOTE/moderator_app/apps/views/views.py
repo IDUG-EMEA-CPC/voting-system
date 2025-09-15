@@ -42,9 +42,9 @@ def moderator(request):
 
     # Filter queryset
     if search:
-        sessions_items = Moderators.objects.filter(search__icontains=search).order_by('sessioncode')
+        sessions_items = Moderators.objects.filter(search__icontains=search).order_by('date', 'session_time', 'session_code')
     else:
-        sessions_items = Moderators.objects.all().order_by('sessioncode')
+        sessions_items = Moderators.objects.all().order_by('date', 'session_time', 'session_code')
 
     # Build table
     sessions = ModeratorsTable(sessions_items)
@@ -56,7 +56,11 @@ def moderator(request):
         'items': sessions,  # Initial render of the table
     }
 
-    return render(request, 'home/moderator.html', context)
+    template = loader.get_template('home/moderator.html')
+
+    return HttpResponse(template.render(context, request))
+
+    #return render(request, 'home/moderator.html', context)
 
 
 def refresh_moderators(request):
@@ -79,9 +83,9 @@ def refresh_moderators(request):
 
         # Filter queryset
         if x.search:
-            sessions_items = Moderators.objects.filter(search__icontains=x.search).order_by('sessioncode')
+            sessions_items = Moderators.objects.filter(search__icontains=x.search).order_by('date', 'session_time', 'session_code')
         else:
-            sessions_items = Moderators.objects.all().order_by('sessioncode')
+            sessions_items = Moderators.objects.all().order_by('date', 'session_time', 'session_code')
 
         sessions = ModeratorsTable(sessions_items)
         RequestConfig(request, paginate={"per_page": 10}).configure(sessions)

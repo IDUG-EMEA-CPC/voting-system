@@ -1,133 +1,80 @@
 from django.db import models
 
-
-class Companytype(models.Model):
-    companytypecode = models.CharField(db_column='CompanyTypeCode', primary_key=True,
-                                       max_length=1)  # Field name made lowercase.
-    companytypename = models.CharField(db_column='CompanyTypeName', max_length=200, blank=True,
-                                       null=True)  # Field name made lowercase.
+class PresenterType(models.Model):
+    presenter_type_code = models.CharField(db_column='PRESENTER_TYPE_CODE', primary_key=True, max_length=1)  # Field name made lowercase.
+    presenter_type_desc = models.CharField(db_column='PRESENTER_TYPE_DESC', max_length=20, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-      managed = False
-      db_table = 'CompanyType'
+        managed = False
+        db_table = 'PRESENTER_TYPE'
 
 
-class Presentationplatform(models.Model):
-  presentationplatformcode = models.CharField(db_column='PresentationPlatformCode', primary_key=True,
-                                              max_length=1)  # Field name made lowercase.
-  presentationplatformname = models.CharField(db_column='PresentationPlatformName', max_length=200, blank=True,
-                                              null=True)  # Field name made lowercase.
+class Subject(models.Model):
+    subject_id = models.CharField(db_column='SUBJECT_ID', primary_key=True, max_length=1)  # Field name made lowercase.
+    subject_desc = models.CharField(db_column='SUBJECT_DESC', max_length=15, blank=True, null=True)  # Field name made lowercase.
 
-  class Meta:
-    managed = False
-    db_table = 'PresentationPlatform'
+    class Meta:
+        managed = False
+        db_table = 'SUBJECT'
 
-
-class Presentationtheme(models.Model):
-  presentationthemecode = models.CharField(db_column='PresentationThemeCode', primary_key=True,
-                                           max_length=1)  # Field name made lowercase.
-  presentationthemename = models.CharField(db_column='PresentationThemeName', max_length=200, blank=True,
-                                           null=True)  # Field name made lowercase.
-
-  class Meta:
-    managed = False
-    db_table = 'PresentationTheme'
 
 
 class Session(models.Model):
-  sessioncode = models.CharField(db_column='SessionCode', primary_key=True, max_length=10)  # Field name made lowercase.
-  secondspeaker = models.CharField(db_column='SecondSpeaker', max_length=200, blank=True,
-                                   null=True)  # Field name made lowercase.
-  sessionnumber = models.CharField(db_column='SessionNumber', max_length=200, blank=True,
-                                   null=True)  # Field name made lowercase.
-  sessiontitle = models.CharField(db_column='SessionTitle', max_length=200, blank=True,
-                                  null=True)  # Field name made lowercase.
-  sessiontype = models.CharField(db_column='SessionType', max_length=200, blank=True,
-                                 null=True)  # Field name made lowercase.
-  primarypresenterfullname = models.CharField(db_column='PrimaryPresenterFullName', max_length=200, blank=True,
-                                              null=True)  # Field name made lowercase.
-  primarypresentercompany = models.CharField(db_column='PrimaryPresenterCompany', max_length=200, blank=True,
-                                             null=True)  # Field name made lowercase.
-  secondarypresenterpanelistfullname = models.CharField(db_column='SecondaryPresenterPanelistFullName', max_length=200,
-                                                        blank=True, null=True)  # Field name made lowercase.
-  secondarypresenterpanelistcompany = models.CharField(db_column='SecondaryPresenterPanelistCompany', max_length=200,
-                                                       blank=True, null=True)  # Field name made lowercase.
-  presentationcategory = models.CharField(db_column='PresentationCategory', max_length=300, blank=True,
-                                          null=True)  # Field name made lowercase.
-  presentationplatformcode = models.ForeignKey(Presentationplatform, models.DO_NOTHING,
-                                               db_column='PresentationPlatformCode')  # Field name made lowercase.
-  companytypecode = models.ForeignKey(Companytype, models.DO_NOTHING,
-                                      db_column='CompanyTypeCode')  # Field name made lowercase.
-  presentationthemecode = models.ForeignKey(Presentationtheme, models.DO_NOTHING,
-                                            db_column='PresentationThemeCode')  # Field name made lowercase.
-
-  class Meta:
-    managed = False
-    db_table = 'Session'
-
-
-class Sessioneval(models.Model):
-    #id = models.IntegerField(primary_key=True)
-    sessioncode = models.ForeignKey(Session, models.DO_NOTHING, db_column='SessionCode')  # Field name made lowercase.
-    overallrating = models.IntegerField(db_column='OverallRating', blank=True, null=True)  # Field name made lowercase.
-    speakerrating = models.IntegerField(db_column='SpeakerRating', blank=True, null=True)  # Field name made lowercase.
-    materialrating = models.IntegerField(db_column='MaterialRating', blank=True, null=True)  # Field name made lowercase.
-    expectationrating = models.IntegerField(db_column='ExpectationRating', blank=True, null=True)  # Field name made lowercase.
-    atendeename = models.CharField(db_column='AtendeeName', max_length=200, blank=True, null=True)  # Field name made lowercase.
-    company = models.CharField(db_column='Company', max_length=200, blank=True, null=True)  # Field name made lowercase.
-    comments = models.CharField(db_column='Comments', max_length=200, blank=True, null=True)  # Field name made lowercase.
+    session_event = models.CharField(db_column='SESSION_EVENT', max_length=10)  # Field name made lowercase.
+    session_code = models.CharField(db_column='SESSION_CODE', primary_key=True, max_length=5)  # Field name made lowercase.
+    session_date = models.DateField(db_column='SESSION_DATE', blank=True, null=True)  # Field name made lowercase.
+    session_start = models.TimeField(db_column='SESSION_START', blank=True, null=True)  # Field name made lowercase.
+    session_end = models.TimeField(db_column='SESSION_END', blank=True, null=True)  # Field name made lowercase.
+    session_number = models.CharField(db_column='SESSION_NUMBER', max_length=10, blank=True, null=True)  # Field name made lowercase.
+    session_title = models.CharField(db_column='SESSION_TITLE', max_length=250, blank=True, null=True)  # Field name made lowercase.
+    subject = models.ForeignKey('Subject', models.DO_NOTHING, db_column='SUBJECT_ID')  # Field name made lowercase.
+    primary_presenter_firstname = models.CharField(db_column='PRIMARY_PRESENTER_FIRSTNAME', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    primary_presenter_lastname = models.CharField(db_column='PRIMARY_PRESENTER_LASTNAME', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    primary_presenter_company = models.CharField(db_column='PRIMARY_PRESENTER_COMPANY', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    secondary_presenter_firstname = models.CharField(db_column='SECONDARY_PRESENTER_FIRSTNAME', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    secondary_presenter_lastname = models.CharField(db_column='SECONDARY_PRESENTER_LASTNAME', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    secondary_presenter_company = models.CharField(db_column='SECONDARY_PRESENTER_COMPANY', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    presenter_type_code = models.ForeignKey(PresenterType, models.DO_NOTHING, db_column='PRESENTER_TYPE_CODE')  # Field name made lowercase.
+    moderator_status_id = models.SmallIntegerField(db_column='MODERATOR_STATUS_ID')  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'SessionEVAL'
-
-
-class Sessionmoderator(models.Model):
-  # id = models.IntegerField(primary_key=True)
-  sessioncode = models.OneToOneField(Session, models.DO_NOTHING, db_column='SessionCode')  # Field name made lowercase.
-  startcount = models.IntegerField(db_column='StartCount')  # Field name made lowercase.
-  midcount = models.IntegerField(db_column='MidCount')  # Field name made lowercase.
-  comments = models.CharField(db_column='Comments', max_length=200, blank=True, null=True)  # Field name made lowercase.
-
-  class Meta:
-    managed = False
-    db_table = 'SessionModerator'
+        db_table = 'SESSION'
+        unique_together = (('session_event', 'session_code'),)
 
 
 
-class Best_Session(models.Model):
-    sessioncode = models.CharField(db_column='sessioncode', primary_key=True, max_length=10)
-    primarypresenterfullname = models.CharField(db_column='primarypresenterfullname', max_length=200, blank=True, null=True)
-    primarypresentercompany = models.CharField(db_column='primarypresentercompany', max_length=200, blank=True, null=True)
-    secondarypresenterpanelistfullname = models.CharField(db_column='secondarypresenterpanelistfullname', max_length=200, blank=True, null=True)
-    secondarypresenterpanelistcompany = models.CharField(db_column='secondarypresenterpanelistcompany', max_length=200, blank=True, null=True)
-    companytypecode = models.CharField(db_column='companytypecode', max_length=1)
-    rating = models.FloatField(db_column='rating', blank=True, null=True)
-    rank = models.IntegerField(db_column='rank', blank=True, null=True)
+class Moderator(models.Model):
+    session_event = models.CharField(db_column='SESSION_EVENT', max_length=10 )  # Field name made lowercase.
+    session_code = models.CharField(db_column='SESSION_CODE', primary_key=True, max_length=5)  # Field name made lowercase.
+    moderator_name = models.CharField(db_column='MODERATOR_NAME', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    moderator_email = models.CharField(db_column='MODERATOR_EMAIL', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    start_count = models.IntegerField(db_column='START_COUNT', null=True)  # Field name made lowercase.
+    mid_count = models.IntegerField(db_column='MID_COUNT', null=True)  # Field name made lowercase.
+    comments = models.CharField(db_column='COMMENTS', max_length=400, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = "best_session"
+        db_table = 'MODERATOR'
+        unique_together = (('session_event', 'session_code'),)
 
-
-class Tracks(models.Model):
-    sessioncode = models.CharField(db_column='sessioncode', primary_key=True, max_length=10)
-    speaker = models.CharField(db_column='speaker', max_length=200, blank=True, null=True)
-    nb_eval = models.IntegerField(db_column='nb_eval', blank=True, null=True)
-    rating = models.FloatField(db_column='rating', blank=True, null=True)
-    rank = models.IntegerField(db_column='rank', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = "tracks"
 
 
 class Moderators(models.Model):
-    sessioncode = models.CharField(db_column='sessioncode', primary_key=True, max_length=10)
-    sessiontitle = models.CharField(db_column='sessiontitle', max_length=200)
-    speaker = models.TextField(db_column='speaker', max_length=200)
-    search = models.TextField(db_column='search', max_length=200)
+    session_event = models.CharField(db_column='SESSION_EVENT', max_length=10, blank=True)  # Field name made lowercase.
+    session_code = models.CharField(db_column='SESSION_CODE', primary_key=True, max_length=5, blank=True)  # Field name made lowercase.
+    date = models.DateField(db_column='DATE', blank=True, null=True)  # Field name made lowercase.
+    session_date = models.TextField(db_column='SESSION_DATE', blank=True, null=True)  # Field name made lowercase.
+    session_time = models.TextField(db_column='SESSION_TIME', blank=True, null=True)  # Field name made lowercase.
+    session_title = models.CharField(db_column='SESSION_TITLE', max_length=250, blank=True, null=True)  # Field name made lowercase.
+    speaker = models.TextField(db_column='SPEAKER', blank=True, null=True)  # Field name made lowercase.
+    moderator_name = models.CharField(db_column='MODERATOR_NAME', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    subject_desc = models.CharField(db_column='SUBJECT_DESC', max_length=15, blank=True, null=True)  # Field name made lowercase.
+    search = models.TextField(db_column='SEARCH', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
-        db_table = 'moderators'
+        managed = False  # Created from a view. Don't remove.
+        db_table = 'MODERATORS'
+        unique_together = (('session_event', 'session_code'),)
+
+

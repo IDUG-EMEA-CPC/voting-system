@@ -1,20 +1,13 @@
 import datetime
 
 def init_response_context(request):
-    first_login = False
-
-    if request.user.is_authenticated:
-        user = request.user
-        if user.date_joined > user.last_login - datetime.timedelta(minutes=2):
-            first_login = True
-
+    user = request.user
 
     context = {
         'user_info': {
             'id' : str(request.user),
             'last_name': request.user.last_name if request.user.is_authenticated else None,
             'first_name': request.user.first_name if request.user.is_authenticated else None,
-            'first_login': first_login,
         },
         'user_permissions': {
             'can_request_new_data': request.user.has_perm('tagsgen.owner'),

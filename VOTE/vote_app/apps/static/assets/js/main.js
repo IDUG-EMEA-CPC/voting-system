@@ -202,6 +202,7 @@ function refresh_value_table() {
         success : function(data) {
             console.log("success");
             $("#results").html(data);
+            console.log("success");
         },
 
         // handle a non-successful response

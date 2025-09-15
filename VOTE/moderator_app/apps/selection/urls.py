@@ -1,13 +1,11 @@
 from django.urls import path, re_path
+from django.views.generic.base import RedirectView
 
-from ..views import views, views_modal
+from ..views import views, views_modal, views_debug
 
 
 urlpatterns = [
-    path('', views.moderator, name='index'),
-
-    path('moderator', views.moderator, name='moderator'),
-
+    path('signup', views.moderator, name='moderator'),
 
     # ajax methods
 

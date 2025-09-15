@@ -94,7 +94,11 @@ def refresh_values(request):
 
         context['items'] = evals
 
+        session = Session.objects.filter(sessioncode=x.sessioncode).first()
+        session_title = session.sessiontitle if session else None
+
         request.session['session_code'] = x.sessioncode
+        request.session['session_title'] = session_title
 
         return render(request, 'tables/table_sessioneval.html', {'items': evals})
     else:

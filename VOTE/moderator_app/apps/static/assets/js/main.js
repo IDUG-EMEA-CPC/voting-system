@@ -39,6 +39,7 @@ function refresh_moderator_table(resetPage = false) {
 
     if (resetPage) {
         url.searchParams.set('page', '1');
+        window.history.replaceState({}, '', url);
     }
 
     $.ajax({
@@ -85,7 +86,7 @@ function refresh_moderator_table(resetPage = false) {
 };
 
 
-function value_edit(sessioneval_id) {
+function value_edit(session_id) {
 
     $.ajax({
         beforeSend: function(request) {
@@ -94,7 +95,7 @@ function value_edit(sessioneval_id) {
         url : "get_modal_edit_value",
         type : "POST",
         data : {
-            sessioneval_id : sessioneval_id
+            session_id : session_id
 
         },
 
@@ -122,7 +123,7 @@ function value_edit(sessioneval_id) {
 }
 
 
-function save_edit_value(sessioneval_id) {
+function save_edit_value(session_id) {
 
     $.ajax({
         beforeSend: function(request) {
@@ -131,22 +132,17 @@ function save_edit_value(sessioneval_id) {
         url : "update_modal_edit_value",
         type : "POST",
         data : {
-            sessioneval_id : sessioneval_id,
-            overall : $('#modal-content #overall').val(),
-            speaker : $('#modal-content #speaker').val(),
-            material : $('#modal-content #material').val(),
-            expectation : $('#modal-content #expectation').val(),
-            name : $('#modal-content #name').val(),
-            company : $('#modal-content #company').val(),
-            comments : $('#modal-content #comments').val()
+            session_id : session_id,
+            moderator_name : $('#modal-content #moderator_name').val(),
+            moderator_email : $('#modal-content #moderator_email').val()
 
         },
 
         success : function(data) {
             console.log("success");
-            alertify.success('Vote Updated')
+            alertify.success('Moderator Updated')
             close_modal()
-            refresh_value_table()
+            refresh_moderator_table()
         },
 
         // handle a non-successful response

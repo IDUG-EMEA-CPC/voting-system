@@ -6,15 +6,17 @@ from ..selection.models import Moderators
 
 
 class ModeratorsTable(tables.Table):
-    sessioncode = tables.Column(verbose_name="Session Code", orderable=False)
-    sessiontitle = tables.Column(verbose_name="Title", orderable=False)
+    session_date = tables.Column(verbose_name="Day", orderable=False)
+    session_time = tables.Column(verbose_name="Time", orderable=False)
+    session_code = tables.Column(verbose_name="Code", orderable=False)
+    session_title = tables.Column(verbose_name="Title", orderable=False)
     speaker = tables.Column(verbose_name="Speaker(s)", orderable=False)
-    moderator_name = ""
+    subject_desc = tables.Column(verbose_name="Platform", orderable=False)
+    moderator_name = tables.Column(verbose_name="Moderator", orderable=False)
 
     search = tables.Column(verbose_name="")
 
-    def render_sessiontitle(self, value):
-        return value[:70]
+
 
     def render_search(self, value):
         return ""
@@ -26,9 +28,12 @@ class ModeratorsTable(tables.Table):
         model = Moderators
         template_name = "django_tables2/bootstrap4.html"
         fields = (
-            "sessioncode",
-            "sessiontitle",
+            "session_date",
+            "session_time",
+            "session_code",
+            "session_title",
             "speaker",
-            "moderator_name"
+            "subject_desc",
+            "moderator_name",
             "search"
         )

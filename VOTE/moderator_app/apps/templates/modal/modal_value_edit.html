@@ -7,7 +7,7 @@
             <div class="card">
 
                 <div class="card-header">
-                    <h5>Rating</h5>
+                    <h5>Moderator</h5>
                 </div>
 
                 <div class="card-block">
@@ -15,60 +15,26 @@
                     <div class="row">
 
 
-                        <div class="col-sm-3 mb-4">
+                        <div class="col-sm-12 mb-4">
                             <div class="form-group">
-                                <label for="overall">Overall Session</label>
-                                <input type="text" value="{% if overall != None %}{{ overall }}{% else %}{% endif %}" class="form-control" name="overall" id="overall" autocomplete="off" aria-describedby="emailHelp" >
+                                <label for="moderator_name">Moderator Name</label>
+                                <input type="text" value="{% if moderator_name != None %}{{ moderator_name }}{% else %}{% endif %}" class="form-control" name="moderator_name" id="moderator_name" autocomplete="off" maxlength="100" aria-describedby="emailHelp" >
                             </div>
                         </div>
 
-
-                        <div class="col-sm-3 mb-4">
-                            <div class="form-group">
-                                <label for="speaker">Speaker</label>
-                                <input type="text" value="{% if speaker != None %}{{ speaker }}{% else %}{% endif %}" class="form-control" name="speaker" id="speaker" autocomplete="off" aria-describedby="emailHelp" >
-                            </div>
-                        </div>
-
-                        <div class="col-sm-3 mb-4">
-                            <div class="form-group">
-                                <label for="material">Presentation Material</label>
-                                <input type="text" value="{% if material != None %}{{ material }}{% else %}{% endif %}" class="form-control" name="material" id="material" autocomplete="off" aria-describedby="emailHelp" >
-                            </div>
-                        </div>
-
-                        <div class="col-sm-3 mb-4">
-                            <div class="form-group">
-                                <label for="expectation">Presentation Expectations</label>
-                                <input type="text" value="{% if expectation != None %}{{ expectation }}{% else %}{% endif %}" class="form-control" name="expectation" id="expectation" autocomplete="off" aria-describedby="emailHelp" >
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6 mb-4">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" value="{% if name != None %}{{ name }}{% else %}{% endif %}" class="form-control" name="name" id="name" autocomplete="off" aria-describedby="emailHelp" >
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6 mb-4">
-                            <div class="form-group">
-                                <label for="company">Company</label>
-                                <input type="text" value="{% if company != None %}{{ company }}{% else %}{% endif %}" class="form-control" name="company" id="company" autocomplete="off" aria-describedby="emailHelp" >
-                            </div>
-                        </div>
 
                         <div class="col-sm-12 mb-4">
                             <div class="form-group">
-                                <label for="comments">Comments</label>
-                                <textarea type="text" class="form-control" name="comments" id="comments" autocomplete="off" aria-describedby="emailHelp" >{% if comments != None %}{{ comments }}{% else %}{% endif %}</textarea>
+                                <label for="moderator_email">Moderator Email</label>
+                                <input type="text" value="{% if moderator_email != None %}{{ moderator_email }}{% else %}{% endif %}" class="form-control" name="moderator_email" id="moderator_email" autocomplete="off" maxlength="50" aria-describedby="emailHelp" >
                             </div>
                         </div>
+
 
 
                         <div class="col-sm-6 mb-2">
                             <div class="form-group">
-                                <button type="submit" onclick="save_edit_value({{sessioneval_id}})" class="btn btn-primary">Update</button>
+                                <button type="submit" onclick="save_edit_value('{{session_id}}')" class="btn btn-primary">Update</button>
                                 <button type="submit" onclick="close_modal()" id="button_cancel" class="btn btn-secondary">Cancel</button>
                             </div>
                         </div>

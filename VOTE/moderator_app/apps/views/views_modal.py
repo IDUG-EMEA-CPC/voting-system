@@ -2,29 +2,32 @@ from rest_framework import status
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 
-from ..selection.models import Moderators
+from ..selection.models import Moderators, Moderator, Session
 from ..selection.utils import init_response_context
 
 
 def get_modal_edit_value(request):
     if request.method == 'POST':
-        sessioneval_id = request.POST.get('sessioneval_id')
+        session_id = request.POST.get('session_id')
 
-        evals = Sessioneval.objects.all().filter(id=sessioneval_id)
+        mod = Moderators.objects.all().filter(session_code=session_id)
 
-        if len(evals) == 1:
+        if len(mod) == 1:
 
             context = init_response_context(request)
 
-            context['sessioneval_id'] = sessioneval_id
+            context['session_id'] = session_id
 
-            context['overall'] = evals[0].overallrating
-            context['speaker'] = evals[0].speakerrating
-            context['material'] = evals[0].materialrating
-            context['expectation'] = evals[0].expectationrating
-            context['name'] = evals[0].atendeename
-            context['company'] = evals[0].company
-            context['comments'] = evals[0].comments
+            context['session_date'] = mod[0].session_date
+            context['session_time'] = mod[0].session_time
+            context['session_title'] = mod[0].session_title
+            context['speaker'] = mod[0].speaker
+            context['platform'] = mod[0].subject_desc
+            context['moderator_name'] = mod[0].moderator_name
+
+            ses = Moderator.objects.all().filter(session_code=session_id)
+            if len(ses) == 1:
+                context['moderator_email'] = ses[0].moderator_email
 
             return render(request, 'modal/modal_value_edit.html', context)
         else:
@@ -34,100 +37,61 @@ def get_modal_edit_value(request):
             return JsonResponse(content, status=status.HTTP_400_BAD_REQUEST)
     else:
         content = {
-            'message': 'An error occured - Not logged in'
+            'message': 'An error occured'
         }
         return JsonResponse(content, status=status.HTTP_400_BAD_REQUEST)
 
 
 def update_modal_edit_value(request):
     if request.method == 'POST':
-        sessioneval_id = request.POST.get('sessioneval_id')
+        session_id = request.POST.get('session_id')
 
-        evals = Sessioneval.objects.all().filter(id=sessioneval_id)
+        mod = Moderator.objects.all().filter(session_code=session_id)
 
-        if len(evals) == 1:
-
-            for i in evals:
-                i.overallrating = request.POST.get('overall') if request.POST.get('overall') != '' else None
-                i.speakerrating = request.POST.get('speaker') if request.POST.get('speaker') != '' else None
-                i.materialrating = request.POST.get('material') if request.POST.get('material') != '' else None
-                i.expectationrating = request.POST.get('expectation') if request.POST.get('expectation') != '' else None
-                i.atendeename = request.POST.get('name') if request.POST.get('name') != '' else None
-                i.company = request.POST.get('company') if request.POST.get('company') != '' else None
-                i.comments = request.POST.get('comments') if request.POST.get('comments') != '' else None
+        if len(mod) == 1:
+            for i in mod:
+                i.moderator_name = request.POST.get('moderator_name') if request.POST.get('moderator_name') != '' else None
+                i.moderator_email = request.POST.get('moderator_email') if request.POST.get('moderator_email') != '' else None
                 i.save()
 
-            context = init_response_context(request)
-            context['message'] = 'OK'
+            if request.POST.get('moderator_name') != '' or request.POST.get('moderator_email') != '':
+                ses = Session.objects.all().filter(session_code=session_id)
+                if len(ses) == 1:
+                    for i in ses:
+                        i.moderator_status_id = 1
+                        i.save()
+            else:
+                ses = Session.objects.all().filter(session_code=session_id)
+                if len(ses) == 1:
+                    for i in ses:
+                        i.moderator_status_id = 0
+                        i.save()
 
-            return JsonResponse(context, status=status.HTTP_200_OK)
-        else:
-            content = {
-                'message': 'An error occured - No data'
-            }
-            return JsonResponse(content, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        content = {
-            'message': 'An error occured - Not logged in'
-        }
-        return JsonResponse(content, status=status.HTTP_400_BAD_REQUEST)
-
-
-def get_modal_delete_value(request):
-    if request.method == 'POST':
-        sessioneval_id = request.POST.get('sessioneval_id')
-
-        evals = Sessioneval.objects.all().filter(id=sessioneval_id)
-
-        if len(evals) == 1:
-
-            context = init_response_context(request)
-
-            context['sessioneval_id'] = sessioneval_id
-
-            context['overall'] = evals[0].overallrating
-            context['speaker'] = evals[0].speakerrating
-            context['material'] = evals[0].materialrating
-            context['expectation'] = evals[0].expectationrating
-            context['name'] = evals[0].atendeename
-            context['company'] = evals[0].company
-            context['comments'] = evals[0].comments
-
-            return render(request, 'modal/modal_value_delete.html', context)
-        else:
-            content = {
-                'message': 'An error occured - No data'
-            }
-            return JsonResponse(content, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        content = {
-            'message': 'An error occured - Not logged in'
-        }
-        return JsonResponse(content, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-def delete_modal_edit_value(request):
-    if request.method == 'POST':
-        sessioneval_id = request.POST.get('sessioneval_id')
-
-        evals = Sessioneval.objects.all().filter(id=sessioneval_id)
-
-        if len(evals) == 1:
-
-            evals.delete()
+                mod.delete()
 
             context = init_response_context(request)
             context['message'] = 'OK'
 
             return JsonResponse(context, status=status.HTTP_200_OK)
         else:
-            content = {
-                'message': 'An error occured - No data'
-            }
-            return JsonResponse(content, status=status.HTTP_400_BAD_REQUEST)
+            if request.POST.get('moderator_name') != '' or request.POST.get('moderator_email') != '':
+                mod = Moderator.objects.create(
+                    session_event="EMEA2025",
+                    session_code=session_id,
+                    moderator_name = request.POST.get('moderator_name') if request.POST.get('moderator_name') != '' else None,
+                    moderator_email = request.POST.get('moderator_email') if request.POST.get('moderator_email') != '' else None,
+                    start_count = None,
+                    mid_count = None,
+                    comments = None
+                )
+
+            context = init_response_context(request)
+            context['message'] = 'OK'
+
+            return JsonResponse(context, status=status.HTTP_200_OK)
     else:
         content = {
-            'message': 'An error occured - Not logged in'
+            'message': 'An error occured'
         }
         return JsonResponse(content, status=status.HTTP_400_BAD_REQUEST)
+

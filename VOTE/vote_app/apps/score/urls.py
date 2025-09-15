@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 
-from ..views import views_login, views, views_add, views_modal, views_sessions, views_moderator
+from ..views import views_login, views, views_add, views_modal, views_sessions, views_moderator, views_debug
 
 
 urlpatterns = [

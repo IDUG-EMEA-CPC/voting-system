@@ -5,6 +5,9 @@
 {% block stylesheets %}{% endblock %}
 
 {% block content %}
+
+{% csrf_token %}
+
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
         <div class="main-body">
@@ -34,7 +37,7 @@
                 Session moderators are essential to the success of each and every IDUG conference and you can help.
             </p>
             <p class="lead text-body-secondary">
-                Please select sessions you would like to moderate.
+                Please select session(s) you would like to moderate.
             </p>
         </div>
     </div>
