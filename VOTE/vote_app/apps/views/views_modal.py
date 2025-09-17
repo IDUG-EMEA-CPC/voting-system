@@ -2,15 +2,16 @@ from rest_framework import status
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 
-from ..score.models import Sessioneval
+from ..score.models import Score
 from ..score.utils import init_response_context
 
+from django.utils import timezone
 
 def get_modal_edit_value(request):
     if request.method == 'POST':
         sessioneval_id = request.POST.get('sessioneval_id')
 
-        evals = Sessioneval.objects.all().filter(id=sessioneval_id)
+        evals = Score.objects.all().filter(score_id=sessioneval_id)
 
         if len(evals) == 1:
 
@@ -18,13 +19,11 @@ def get_modal_edit_value(request):
 
             context['sessioneval_id'] = sessioneval_id
 
-            context['overall'] = evals[0].overallrating
-            context['speaker'] = evals[0].speakerrating
-            context['material'] = evals[0].materialrating
-            context['expectation'] = evals[0].expectationrating
-            context['name'] = evals[0].atendeename
-            context['company'] = evals[0].company
-            context['comments'] = evals[0].comments
+            context['overall'] = evals[0].overall_score
+            context['speaker'] = evals[0].speaker_score
+            context['material'] = evals[0].material_score
+            context['expectation'] = evals[0].level_score
+            context['comments'] = evals[0].notes
 
             return render(request, 'modal/modal_value_edit.html', context)
         else:
@@ -43,18 +42,18 @@ def update_modal_edit_value(request):
     if request.method == 'POST':
         sessioneval_id = request.POST.get('sessioneval_id')
 
-        evals = Sessioneval.objects.all().filter(id=sessioneval_id)
+        evals = Score.objects.all().filter(score_id=sessioneval_id)
 
         if len(evals) == 1:
 
             for i in evals:
-                i.overallrating = request.POST.get('overall') if request.POST.get('overall') != '' else None
-                i.speakerrating = request.POST.get('speaker') if request.POST.get('speaker') != '' else None
-                i.materialrating = request.POST.get('material') if request.POST.get('material') != '' else None
-                i.expectationrating = request.POST.get('expectation') if request.POST.get('expectation') != '' else None
-                i.atendeename = request.POST.get('name') if request.POST.get('name') != '' else None
-                i.company = request.POST.get('company') if request.POST.get('company') != '' else None
-                i.comments = request.POST.get('comments') if request.POST.get('comments') != '' else None
+                i.overall_score = request.POST.get('overall') if request.POST.get('overall') != '' else None
+                i.speaker_score = request.POST.get('speaker') if request.POST.get('speaker') != '' else None
+                i.material_score = request.POST.get('material') if request.POST.get('material') != '' else None
+                i.level_score = request.POST.get('expectation') if request.POST.get('expectation') != '' else None
+                i.notes = request.POST.get('comments') if request.POST.get('comments') != '' else None
+                i.last_modified_by = request.user.username
+                i.last_modified_timestamp = timezone.now()
                 i.save()
 
             context = init_response_context(request)
@@ -77,7 +76,7 @@ def get_modal_delete_value(request):
     if request.method == 'POST':
         sessioneval_id = request.POST.get('sessioneval_id')
 
-        evals = Sessioneval.objects.all().filter(id=sessioneval_id)
+        evals = Score.objects.all().filter(score_id=sessioneval_id)
 
         if len(evals) == 1:
 
@@ -85,13 +84,11 @@ def get_modal_delete_value(request):
 
             context['sessioneval_id'] = sessioneval_id
 
-            context['overall'] = evals[0].overallrating
-            context['speaker'] = evals[0].speakerrating
-            context['material'] = evals[0].materialrating
-            context['expectation'] = evals[0].expectationrating
-            context['name'] = evals[0].atendeename
-            context['company'] = evals[0].company
-            context['comments'] = evals[0].comments
+            context['overall'] = evals[0].overall_score
+            context['speaker'] = evals[0].speaker_score
+            context['material'] = evals[0].material_score
+            context['expectation'] = evals[0].level_score
+            context['comments'] = evals[0].notes
 
             return render(request, 'modal/modal_value_delete.html', context)
         else:
@@ -111,7 +108,7 @@ def delete_modal_edit_value(request):
     if request.method == 'POST':
         sessioneval_id = request.POST.get('sessioneval_id')
 
-        evals = Sessioneval.objects.all().filter(id=sessioneval_id)
+        evals = Score.objects.all().filter(score_id=sessioneval_id)
 
         if len(evals) == 1:
 

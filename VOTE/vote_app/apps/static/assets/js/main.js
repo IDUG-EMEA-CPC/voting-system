@@ -154,8 +154,6 @@ function get_data() {
             speaker : $('#speaker').val(),
             material : $('#material').val(),
             expectation : $('#expectation').val(),
-            name : $('#name').val(),
-            company : $('#company').val(),
             comments : $('#comments').val(),
 
             url : window.location.href
@@ -170,15 +168,19 @@ function reset(){
    $('#speaker').val('');
    $('#material').val('');
    $('#expectation').val('');
-   $('#name').val('');
-   $('#company').val('');
    $('#comments').val('');
 
    $('#overall').focus();
 
 }
 
+
+
+
 function save_moderator(){
+
+
+
 
 
 }
@@ -286,8 +288,6 @@ function save_edit_value(sessioneval_id) {
             speaker : $('#modal-content #speaker').val(),
             material : $('#modal-content #material').val(),
             expectation : $('#modal-content #expectation').val(),
-            name : $('#modal-content #name').val(),
-            company : $('#modal-content #company').val(),
             comments : $('#modal-content #comments').val()
 
         },
@@ -372,8 +372,6 @@ function delete_edit_value(sessioneval_id) {
             speaker : $('#modal-content #speaker').val(),
             material : $('#modal-content #material').val(),
             expectation : $('#modal-content #expectation').val(),
-            name : $('#modal-content #name').val(),
-            company : $('#modal-content #company').val(),
             comments : $('#modal-content #comments').val()
 
         },

@@ -2,7 +2,7 @@ from django.template import loader
 from django.shortcuts import redirect, render
 from ..views.views_login import login
 from ..score.utils import RequestParameters, retrieve_value_from_session, init_response_context
-from ..score.models import Session
+from ..score.models import Moderators
 from django.http import JsonResponse
 from rest_framework import status
 
@@ -33,7 +33,7 @@ def refresh_sessions(request):
         if 'sessions' in x.url and 'page=' in x.url:
             pos = x.url.index('page=') + len('page=')
             page = x.url[pos:]
-            sessions_items = Session.objects.all().order_by('sessioncode')
+            sessions_items = Moderators.objects.all().order_by('date', 'session_time', 'session_code')
 
             sessions = SessionTable(sessions_items)
 
@@ -42,7 +42,7 @@ def refresh_sessions(request):
             sessions.page = sessions.page.paginator.get_page(page)
 
         else:
-            sessions_items = Session.objects.all().order_by('sessioncode')
+            sessions_items = Moderators.objects.all().order_by('date', 'session_time', 'session_code')
 
             sessions = SessionTable(sessions_items)
 

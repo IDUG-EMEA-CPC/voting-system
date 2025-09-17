@@ -52,104 +52,79 @@
                                     </div>
 
 
-                                    <div class="col-sm-12">
-                                    <div class="card">
+                                    <div class="row">
+    <!-- Rating Block -->
+    <div class="col-md-6 mb-3">
+        <div class="card h-100 d-flex flex-column">
+            <div class="card-header">
+                <h5>Rating</h5>
+            </div>
+            <div class="card-block flex-grow-1 d-flex flex-column">
+                <div class="row">
 
-                                        <div class="card-header">
-                                            <h5>Rating</h5>
-                                        </div>
+                    <div class="col-sm-6 mb-3">
+                        <div class="form-group">
+                            <label for="overall">Overall Session Rating</label>
+                            <input type="text" class="form-control" onkeydown="tabenter(event, 'overall')" name="overall" id="overall" autocomplete="off">
+                        </div>
+                    </div>
 
-                                        <div class="card-block">
+                    <div class="col-sm-6 mb-3">
+                        <div class="form-group">
+                            <label for="speaker">Speaker Rating</label>
+                            <input type="text" class="form-control" onkeydown="tabenter(event, 'speaker')" name="speaker" id="speaker" autocomplete="off">
+                        </div>
+                    </div>
 
-                                            <div class="row">
+                    <div class="col-sm-6 mb-3">
+                        <div class="form-group">
+                            <label for="material">Presentation Material Rating</label>
+                            <input type="text" class="form-control" onkeydown="tabenter(event, 'material')" name="material" id="material" autocomplete="off">
+                        </div>
+                    </div>
 
+                    <div class="col-sm-6 mb-3">
+                        <div class="form-group">
+                            <label for="expectation">Did Presentation Meet Expectations</label>
+                            <input type="text" class="form-control" onkeydown="tabenter(event, 'expectation')" name="expectation" id="expectation" autocomplete="off">
+                        </div>
+                    </div>
 
-                                                <div class="col-sm-3 mb-4">
-                                                    <div class="form-group">
-                                                        <label for="overall">Overall Session Rating</label>
-                                                        <input type="text" class="form-control" onkeydown="tabenter(event, 'overall')" name="overall" id="overall" autocomplete="off" aria-describedby="emailHelp" >
-                                                    </div>
-                                                </div>
+                    <div class="col-sm-12 mb-3">
+                        <div class="form-group">
+                            <label for="comments">Comments</label>
+                            <textarea class="form-control" rows="3" onkeydown="tabenter(event, 'comments')" name="comments" id="comments" autocomplete="off"></textarea>
+                        </div>
+                    </div>
 
-                                                <div class="col-sm-3 mb-4">
-                                                    <div class="form-group">
-                                                        <label for="speaker">Speaker Rating</label>
-                                                        <input type="text" class="form-control" onkeydown="tabenter(event, 'speaker')" name="speaker" id="speaker" autocomplete="off" aria-describedby="emailHelp" >
-                                                    </div>
-                                                </div>
+                    <div class="col-sm-12 mt-auto">
+                        <div class="form-group">
+                            <button type="submit" onclick="save_value()" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
 
-                                                <div class="col-sm-3 mb-4">
-                                                    <div class="form-group">
-                                                        <label for="material">Presentation Material Rating</label>
-                                                        <input type="text" class="form-control" onkeydown="tabenter(event, 'material')" name="material" id="material" autocomplete="off" aria-describedby="emailHelp" >
-                                                    </div>
-                                                </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                                                <div class="col-sm-3 mb-4">
-                                                    <div class="form-group">
-                                                        <label for="expectation">Did Presentation Meet Expectations</label>
-                                                        <input type="text" class="form-control" onkeydown="tabenter(event, 'expectation')" name="expectation" id="expectation" autocomplete="off" aria-describedby="emailHelp" >
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-sm-6 mb-4">
-                                                    <div class="form-group">
-                                                        <label for="name">Name</label>
-                                                        <input type="text" class="form-control" onkeydown="tabenter(event, 'name')" name="name" id="name" autocomplete="off" aria-describedby="emailHelp" >
-                                                    </div>
-                                                </div>
+    <!-- Evaluation Block -->
+    <div class="col-md-6 mb-3">
+        <div class="card h-100 d-flex flex-column user-list">
+            <div class="card-header">
+                <h5>Evaluation</h5>
+            </div>
+            <div class="card-block flex-grow-1 d-flex flex-column">
+                <div class="row">
+                    <div class="content flex-grow-1">
+                        <div id="results" style="min-height: 400px; margin-top:10px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                                                <div class="col-sm-6 mb-4">
-                                                    <div class="form-group">
-                                                        <label for="company">Company</label>
-                                                        <input type="text" class="form-control" onkeydown="tabenter(event, 'company')" name="company" id="company" autocomplete="off" aria-describedby="emailHelp" >
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-sm-12 mb-4">
-                                                    <div class="form-group">
-                                                        <label for="comments">Comments</label>
-                                                        <textarea type="text" class="form-control" onkeydown="tabenter(event, 'comments')" name="comments" id="comments" autocomplete="off" aria-describedby="emailHelp" ></textarea>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="col-sm-6 mb-2">
-                                                    <div class="form-group">
-                                                        <button type="submit" onclick="save_value()" class="btn btn-primary">Save</button>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-
-
-
-
-                                <div class="col-xl-12 col-md-12">
-                                    <div class="card user-list">
-                                        <div class="card-header">
-                                            <h5>Evaluation</h5>
-                                        </div>
-                                        <div class="card-block">
-                                            <div class="row">
-
-
-                                                <div class="content">
-                                                    <div id="results" style="min-height: 400px;margin-top:10px"></div>
-                                                </div>
-
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
 
 
 

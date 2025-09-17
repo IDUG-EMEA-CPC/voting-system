@@ -2,36 +2,32 @@
 
 from django_tables2 import tables, TemplateColumn
 
-from ..score.models import Sessioneval, Session
+from ..score.models import Score, Moderators
 
 
 
-class SessionEvalTable(tables.Table):
-    id = tables.Column(verbose_name="")
-    overallrating = tables.Column(verbose_name="Overall", orderable=False)
-    speakerrating = tables.Column(verbose_name="Speaker", orderable=False)
-    materialrating = tables.Column(verbose_name="Material", orderable=False)
-    expectationrating = tables.Column(verbose_name="Expectation", orderable=False)
-    atendeename = tables.Column(verbose_name="Attendee", orderable=False)
-    company = tables.Column(verbose_name="Company", orderable=False)
-    comments = tables.Column(verbose_name="Comments", orderable=False)
+class ScoreTable(tables.Table):
+    score_id = tables.Column(verbose_name="")
+    overall_score = tables.Column(verbose_name="Overall", orderable=False)
+    speaker_score = tables.Column(verbose_name="Speaker", orderable=False)
+    material_score = tables.Column(verbose_name="Material", orderable=False)
+    level_score = tables.Column(verbose_name="Expectation", orderable=False)
+    notes = tables.Column(verbose_name="Comments", orderable=False)
 
-    def render_id(self, value):
+    def render_score_id(self, value):
         return ""
 
 
     class Meta:
-        model = Sessioneval
+        model = Score
         template_name = "django_tables2/bootstrap4.html"
         fields = (
-            "id",
-            "overallrating",
-            "speakerrating",
-            "materialrating",
-            "expectationrating",
-            "atendeename",
-            "company",
-            "comments"
+            "score_id",
+            "overall_score",
+            "speaker_score",
+            "material_score",
+            "level_score",
+            "notes"
         )
 
     Edit = TemplateColumn(template_name='tables/value_update.html', verbose_name="")
@@ -39,25 +35,27 @@ class SessionEvalTable(tables.Table):
 
 
 class SessionTable(tables.Table):
-    sessioncode = TemplateColumn(template_name='tables/value_session.html', verbose_name="Session Code", orderable=False)
-    sessiontitle = tables.Column(verbose_name="Title", orderable=False)
-    primarypresenterfullname = tables.Column(verbose_name="First Speaker", orderable=False)
-    primarypresentercompany = tables.Column(verbose_name="Company", orderable=False)
-    secondarypresenterpanelistfullname = tables.Column(verbose_name="Second Speaker", orderable=False)
-    secondarypresenterpanelistcompany = tables.Column(verbose_name="Company", orderable=False)
+    session_code = TemplateColumn(template_name='tables/value_session.html', verbose_name="Session Code", orderable=False)
+    date = tables.Column(verbose_name="", orderable=False)
+    session_date = tables.Column(verbose_name="Day", orderable=False)
+    session_time = tables.Column(verbose_name="Time", orderable=False)
+    session_title = tables.Column(verbose_name="Title", orderable=False)
+    speaker = tables.Column(verbose_name="Speaker(s)", orderable=False)
+    subject_desc = tables.Column(verbose_name="Platform", orderable=False)
+    moderator_name = tables.Column(verbose_name="Moderator", orderable=False)
 
-    def render_sessiontitle(self, value):
-        return value[:70]
-
+    def render_date(self, value):
+        return ""
 
     class Meta:
-        model = Session
+        model = Moderators
         template_name = "django_tables2/bootstrap4.html"
         fields = (
-            "sessioncode",
-            "sessiontitle",
-            "primarypresenterfullname",
-            "primarypresentercompany",
-            "secondarypresenterpanelistfullname",
-            "secondarypresenterpanelistcompany"
+            "session_code",
+            "session_date",
+            "session_time",
+            "session_title",
+            "speaker",
+            "subject_desc",
+            "moderator_name"
         )

@@ -79,11 +79,17 @@ def update_modal_edit_value(request):
                     session_event="EMEA2025",
                     session_code=session_id,
                     moderator_name = request.POST.get('moderator_name') if request.POST.get('moderator_name') != '' else None,
-                    moderator_email = request.POST.get('moderator_email') if request.POST.get('moderator_email') != '' else None,
-                    start_count = None,
-                    mid_count = None,
-                    comments = None
+                    moderator_email = request.POST.get('moderator_email') if request.POST.get('moderator_email') != '' else None
                 )
+
+
+                ses = Session.objects.all().filter(session_code=session_id)
+                if len(ses) == 1:
+                    for i in ses:
+                        i.moderator_status_id = 1
+                        i.save()
+
+
 
             context = init_response_context(request)
             context['message'] = 'OK'

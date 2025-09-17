@@ -35,6 +35,9 @@ class Session(models.Model):
     secondary_presenter_lastname = models.CharField(db_column='SECONDARY_PRESENTER_LASTNAME', max_length=50, blank=True, null=True)  # Field name made lowercase.
     secondary_presenter_company = models.CharField(db_column='SECONDARY_PRESENTER_COMPANY', max_length=50, blank=True, null=True)  # Field name made lowercase.
     presenter_type_code = models.ForeignKey(PresenterType, models.DO_NOTHING, db_column='PRESENTER_TYPE_CODE')  # Field name made lowercase.
+    start_count = models.IntegerField(db_column='START_COUNT', null=True)  # Field name made lowercase.
+    mid_count = models.IntegerField(db_column='MID_COUNT', null=True)  # Field name made lowercase.
+    comments = models.CharField(db_column='COMMENTS', max_length=400, blank=True, null=True)  # Field name made lowercase.
     moderator_status_id = models.SmallIntegerField(db_column='MODERATOR_STATUS_ID')  # Field name made lowercase.
 
     class Meta:
@@ -49,9 +52,6 @@ class Moderator(models.Model):
     session_code = models.CharField(db_column='SESSION_CODE', primary_key=True, max_length=5)  # Field name made lowercase.
     moderator_name = models.CharField(db_column='MODERATOR_NAME', max_length=100, blank=True, null=True)  # Field name made lowercase.
     moderator_email = models.CharField(db_column='MODERATOR_EMAIL', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    start_count = models.IntegerField(db_column='START_COUNT', null=True)  # Field name made lowercase.
-    mid_count = models.IntegerField(db_column='MID_COUNT', null=True)  # Field name made lowercase.
-    comments = models.CharField(db_column='COMMENTS', max_length=400, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False

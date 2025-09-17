@@ -2,7 +2,7 @@ from django.template import loader
 from django.shortcuts import redirect, render
 from ..views.views_login import login
 from ..score.utils import RequestParameters, retrieve_value_from_session, init_response_context
-from ..score.models import Session, Sessionmoderator
+from ..score.models import Session, Moderators
 from django.http import JsonResponse
 from rest_framework import status
 
@@ -27,14 +27,16 @@ def refresh_moderator(request):
 
         context = init_response_context(request)
 
-        session = Session.objects.all().filter(sessioncode=x.sessioncode).values()
-        moderator = Sessionmoderator.objects.all().values()
+        session = Session.objects.all().filter(session_code=x.sessioncode).values()
+        moderator = Moderators.objects.all().filter(session_code=x.sessioncode).values()
 
 
-        context['moderator'] = ''
-        context['speaker'] = session[0]['primarypresenterfullname']
-        context['startcount'] = '' #moderator[0]['startcount']
-        context['midcount'] = '' #moderator[0]['midcount']
+        context['moderator'] = moderator[0]['moderator_name']
+        context['speaker'] = moderator[0]['speaker']
+
+        context['startcount'] = session[0]['start_count']
+        context['midcount'] = session[0]['mid_count']
+        context['comments'] = session[0]['comments']
 
         context['message'] = 'OK'
 

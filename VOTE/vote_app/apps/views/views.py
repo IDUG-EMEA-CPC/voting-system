@@ -18,8 +18,8 @@ import math
 from ..score.utils import RequestParameters, retrieve_value_from_session, init_response_context
 from .views_add import refresh_values
 
-from ..score.models import Sessioneval, Session, Best_Session, Tracks
-from ..tables.tables import SessionEvalTable
+from ..score.models import Score, Session, BestSession, BestUserSession, Tracks
+from ..tables.tables import ScoreTable
 from django_tables2 import RequestConfig
 
 from django.core.paginator import Paginator
@@ -32,11 +32,11 @@ def index(request):
         context = init_response_context(request)
         context['segment'] = 'index'
 
-        check = Sessioneval.objects.all().count()
+        check = Score.objects.all().count()
         if check > 0:
 
             # encoded sessions
-            encode_sessions = Sessioneval.objects.all().values("sessioncode").annotate(total=Count("sessioncode")).count()
+            encode_sessions = Score.objects.all().values("session_code").annotate(total=Count("session_code")).count()
             sessions_nb = Session.objects.all().count()
             session_percent = round((encode_sessions/sessions_nb)*100 , 2)
 
@@ -44,21 +44,34 @@ def index(request):
             context['sessions_nb'] = sessions_nb
             context['session_percent'] = session_percent
 
-            # best session
-            if Best_Session.objects.all().count() > 0:
-                best_session = Best_Session.objects.all()
+            # best User session
+            if BestUserSession.objects.all().count() > 0:
+                best_user_session = BestUserSession.objects.all()
 
-                context['best_sessioncode'] = best_session[0].sessioncode
-                context['best_speaker'] = best_session[0].primarypresenterfullname
+                context['best_user_sessioncode'] = best_user_session[0].session_code
+                context['best_user_speaker'] = best_user_session[0].primary_presenter
+                context['best_user_rating'] = round(best_user_session[0].rating, 4)
+            else:
+                context['best_user_sessioncode'] = "None"
+                context['best_user_speaker'] = ""
+                context['best_user_rating'] = 0.0000
+
+            # best session
+            if BestSession.objects.all().count() > 0:
+                best_session = BestSession.objects.all()
+
+                context['best_sessioncode'] = best_session[0].session_code
+                context['best_speaker'] = best_session[0].primary_presenter
                 context['best_rating'] = round(best_session[0].rating, 4)
             else:
                 context['best_sessioncode'] = "None"
                 context['best_speaker'] = ""
                 context['best_rating'] = 0.0000
 
+
             #track summary
-            track_summary = Session.objects.annotate(first=Substr('sessioncode', 1, 1)).values('first').annotate(cnt=Count('sessioncode')).order_by('first')
-            nb_per_session = Sessioneval.objects.annotate(session=Substr('sessioncode', 1, 3)).values('session').annotate(cnt=Count('sessioncode')).order_by('session')
+            track_summary = Session.objects.annotate(first=Substr('session_code', 1, 1)).values('first').annotate(cnt=Count('session_code')).order_by('first')
+            nb_per_session = Score.objects.annotate(session=Substr('session_code', 1, 3)).values('session').annotate(cnt=Count('session_code')).order_by('session')
 
             i = 0
             for track in track_summary:
@@ -71,7 +84,7 @@ def index(request):
                         track_summary[i]['nb'] = count
                         track_summary[i]['percent'] = round((count/track['cnt'])*100 , 2)
                         # track detail
-                        detail = Tracks.objects.annotate(first=Substr('sessioncode', 1, 1)).filter(first=track['first']).values().order_by('-rating')
+                        detail = Tracks.objects.annotate(first=Substr('session_code', 1, 1)).filter(first=track['first']).values().order_by('-rating')
                         track_summary[i]['detail'] = detail
 
                 i += 1
@@ -85,12 +98,17 @@ def index(request):
             context['sessions_nb'] = Session.objects.all().count()
             context['session_percent'] = 0
 
+            # best user session
+            context['best_user_sessioncode'] = "None"
+            context['best_user_speaker'] = ""
+            context['best_user_rating'] = 0.0000
+
             # best session
             context['best_sessioncode'] = "None"
             context['best_speaker'] = ""
             context['best_rating'] = 0.0000
 
-            track_summary = Session.objects.annotate(first=Substr('sessioncode', 1, 1)).values('first').annotate(cnt=Count('sessioncode')).order_by('first')
+            track_summary = Session.objects.annotate(first=Substr('session_code', 1, 1)).values('first').annotate(cnt=Count('session_code')).order_by('first')
             i = 0
             for track in track_summary:
                 track_summary[i]['nb'] = 0

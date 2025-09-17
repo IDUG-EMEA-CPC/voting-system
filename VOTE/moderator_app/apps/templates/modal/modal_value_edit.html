@@ -5,22 +5,20 @@
 
     <div class="card">
         <div class="card-header">
-            <h5>Moderator</h5>
+            <h5>{{ session_id }} - {{ session_title }}</h5>
         </div>
 
         <div class="card-body">
             <div class="row">
                 <!-- Left Column (Info) -->
                 <div class="col-md-5 mb-4">
-                    <h6>{{ session_id }} - {{ session_title }}</h6>
-                    <p class="text-muted">
-                        {{ session_date }} {{ session_time }}
-                    </p>
+                    <h6>{{ session_date }} {{ session_time }}</h6>
 
-                    <h6>{{ platform }}</h6>
                     <p class="text-muted">
                         {{ speaker }}
                     </p>
+
+                    <h6>{{ platform }}</h6>
                 </div>
 
                 <!-- Right Column (Form) -->

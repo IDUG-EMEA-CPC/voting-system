@@ -1,4 +1,6 @@
 
+
+
 DROP INDEX "SCORE_SESSION_IDX";
 DROP INDEX "PRESENTER_TYPE_IDX";
 DROP INDEX "SUBJECT_IDX";
@@ -6,8 +8,6 @@ DROP INDEX "MODERATOR_IDX";
 DROP INDEX "SESSION_IDX";
 DROP INDEX "SESSION_PRESENTER_TYPE_IDX";
 DROP INDEX "SESSION_SUBJECT_IDX";
-
-
 
 DROP VIEW "vote"."VSTATISTICS" ;
 DROP VIEW "vote"."VMODAVAIL";
@@ -19,6 +19,7 @@ DROP VIEW "vote"."BEST_SESSION";
 DROP VIEW "vote"."BEST_USER_SESSION";
 DROP VIEW "vote"."TRACKS";
 DROP VIEW "vote"."MODERATORS";
+
 
 DROP TABLE "vote"."SCORE";
 DROP TABLE "vote"."MODERATOR";
@@ -81,6 +82,10 @@ CREATE TABLE
         "SECONDARY_PRESENTER_COMPANY"        CHARACTER VARYING(50),
         "PRESENTER_TYPE_CODE"                CHAR(1) NOT NULL,
 
+        "START_COUNT"  INTEGER ,
+        "MID_COUNT"    INTEGER ,
+        "COMMENTS"    CHARACTER VARYING(400),
+
         "MODERATOR_STATUS_ID"           SMALLINT NOT NULL DEFAULT 0 ,
 
         PRIMARY KEY ("SESSION_EVENT", "SESSION_CODE"),
@@ -118,9 +123,6 @@ CREATE TABLE
         "SESSION_CODE"                       CHARACTER VARYING(5) NOT NULL,
         "MODERATOR_NAME"                        CHARACTER VARYING(100),
         "MODERATOR_EMAIL"                       CHARACTER VARYING(50),
-        "START_COUNT"  INTEGER ,
-        "MID_COUNT"    INTEGER ,
-        "COMMENTS"    CHARACTER VARYING(400),
 
         CONSTRAINT "SESSION_FKEY" FOREIGN KEY ("SESSION_EVENT", "SESSION_CODE") REFERENCES "SESSION" ("SESSION_EVENT", "SESSION_CODE")
     );
@@ -409,6 +411,12 @@ FROM
     temp2;
 
 
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+
 CREATE VIEW "vote"."VSESSIONS"
 ("SESSION_EVENT", "SESSION_CODE" ,"SESSION_TITLE"
 ,"PRIMARY_PRESENTER", "PRIMARY_PRESENTER_COMPANY"
@@ -445,6 +453,9 @@ LEFT OUTER JOIN SCORES X ON S."SESSION_EVENT" = X."SESSION_EVENT" and S."SESSION
 LEFT OUTER JOIN SCORE_NOTES N ON S."SESSION_EVENT" = N."SESSION_EVENT" and S."SESSION_CODE" = N."SESSION_CODE";
 
 
+-----------------------
+
+
 CREATE VIEW "vote"."VSTATISTICS"
 ("TOTAL_SESSIONS" ,"COMPLETED_SESSIONS" ,"BEST_SPEAKER", "BEST_USER_SPEAKER")
 AS
@@ -457,6 +468,9 @@ DESC FETCH FIRST 1 ROWS ONLY) ,
 WHERE "PRESENTER_TYPE" = 'User/Consultant' AND "SCORE_COUNT" > 10 ORDER BY "SCORE"
 DESC FETCH FIRST 1 ROWS ONLY)
 );
+
+---------------------------------------------
+
 
 
 CREATE VIEW "vote"."VMODAVAIL"
@@ -477,6 +491,8 @@ WHERE S."MODERATOR_STATUS_ID" = 0;
 
 
 
+----------------------------------
+
 CREATE VIEW "vote"."VMODTAKEN"
 ("SESSION_EVENT", "SESSION_CODE" ,"SESSION_TITLE"
 ,"PRIMARY_PRESENTER", "PRIMARY_PRESENTER_COMPANY"
@@ -496,7 +512,7 @@ INNER JOIN "vote"."PRESENTER_TYPE" P ON S."PRESENTER_TYPE_CODE" = P."PRESENTER_T
 INNER JOIN "vote"."MODERATOR" X ON S."SESSION_EVENT" = X."SESSION_EVENT" and S."SESSION_CODE" = X."SESSION_CODE"
 WHERE S."MODERATOR_STATUS_ID" <> 0;
 
-
+---------------------------------------------
 
 
 CREATE VIEW "vote"."VMODALL"
@@ -516,6 +532,10 @@ FROM "vote"."SESSION"    S
 INNER JOIN "vote"."PRESENTER_TYPE" P ON S."PRESENTER_TYPE_CODE" = P."PRESENTER_TYPE_CODE"
 
 INNER JOIN "vote"."MODERATOR" X ON S."SESSION_EVENT" = X."SESSION_EVENT" and S."SESSION_CODE" = X."SESSION_CODE";
+
+
+---------------------------------
+---------------------------------
 
 
 
@@ -618,7 +638,7 @@ VALUES
 ('EMEA2025','E14', '10/29/2025', '17:40', '18:40', 'SESS-130', 'The ins and outs of High Performance DBATs', '1', 'Bart', 'Steegmans', 'IBM', 'Gareth', 'Copplestone-Jones ', 'Triton Consulting', '2'),
 ('EMEA2025','E15', '10/30/2025', '09:00', '10:00', 'SESS-80', 'Achieving Resilience with DORA and Db2 Tools: Enhancing Operational Continuity and Compliance', '1', 'Julia', 'Carter', 'Broadcom', 'Jose ', 'Arias', 'Broadcom', '4'),
 ('EMEA2025','E16', '10/30/2025', '10:20', '11:20', 'SESS-211', 'Native cloud object storage in Db2 Warehouse: AWS or Azure ?', '2', 'Robert', 'Hooper', 'IBM', 'Christian', 'Garcia-Arellano', 'IBM', '2'),
-('EMEA2025','E17', '10/30/2025', '11:30', '12:30', 'SESS-46', 'Adopting Agile Development Practices with Db2 for z/OS - Customer Perspective', '1', 'Sueli', 'Almeida', 'IBM Silicon Valley Lab', '0', '0', 'IBM Silicon Valley Lab', '2'),
+('EMEA2025','E17', '10/30/2025', '11:30', '12:30', 'SESS-46', 'Adopting Agile Development Practices with Db2 for z/OS - Customer Perspective', '1', 'Sueli', 'Almeida', 'IBM Silicon Valley Lab', NULL, NULL, NULL, '2'),
 
 
 
@@ -639,6 +659,14 @@ VALUES
 ('EMEA2025','F15', '10/30/2025', '09:00', '10:00', 'SESS-214', 'Pedal to The Metal - this is not your Daddy''s Accelerator!', '1', 'Adrian', 'Collett', 'Expertise4IT s.r.l.', NULL, NULL, NULL, '1'),
 ('EMEA2025','F16', '10/30/2025', '10:20', '11:20', 'SESS-182', 'Modernizing Db2 for z/OS System Management with Ansible', '1', 'Manoj Kumar', 'Jadwani', 'BMC Software', 'Hardik', 'Chawda', 'BMC Software', '3'),
 ('EMEA2025','F17', '10/30/2025', '11:30', '12:30', 'SESS-235', 'REST API: A New Way to Access Db2', '2', 'Andreas', 'Weininger', 'IBM', NULL, NULL, NULL, '2');
+
+
+
+
+
+
+
+
 
 
 
