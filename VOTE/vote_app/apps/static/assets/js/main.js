@@ -174,18 +174,133 @@ function reset(){
 
 }
 
+function check_session(){
+    $.ajax({
+        beforeSend: function(request) {
+            request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        },
+        url : "check_sessioncode",
+        type : "POST",
+        data : {
+                sessioncode : $('#sessioncode').val(),
+        },
 
+       success : function(data) {
+            if (data.exists) {
+                $('#session-title-display').text(data.title);
 
+                $('#speakers').text(data.speaker);
 
-function save_moderator(){
+                $('#attendees').val(data.attendees);
+                $('#attendees20').val(data.attendees20);
+                updateSessionInfo(data.title);
+                enableRatingInputs();
+                $('#overall').focus();
+                refresh_value_table();
+            } else {
+                $('#session-title-display').text('');
 
+                $('#speakers').text('');
 
+                $('#attendees').val('');
+                $('#attendees20').val('');
+                updateSessionInfo("");
+                disableRatingInputs();
+                refresh_value_table();
+            }
 
+        },
 
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            $('#session-title').text('Error checking session');
+            disableRatingInputs();
+
+            data = xhr.responseJSON
+            if (data !== undefined) {
+                console.log(data)
+                if ('message' in data) {
+                    error = data['message']
+                } else {
+                    error = errmsg
+                }
+            } else {
+                if(err == "Forbidden") {
+                    error = 'You do not have the rights to execute this operation. Please contact the administrator.'
+                }
+                else {
+                    error = 'An unexpected error occured. Please retry. If the issue still occurs, contact your administrator.'
+                }
+
+            }
+
+            alertify.error(error);
+            return false;
+        }
+    });
 
 }
 
 
+function updateAttendeeCounts() {
+    const sessionCode = $('#sessioncode').val();
+    const attendees = $('#attendees').val();
+    const attendees20 = $('#attendees20').val();
+
+    if (sessionCode === '') {
+        alertify.error("Session code is required.");
+        return;
+    }
+
+    $.ajax({
+        beforeSend: function (request) {
+            request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        },
+        url: 'update_attendees',
+        type: 'POST',
+        data: {
+            sessioncode: sessionCode,
+            attendees: attendees,
+            attendees20: attendees20
+        },
+
+        success: function (data) {
+            alertify.success('Attendee counts updated');
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            $('#session-title').text('Error checking session');
+            disableRatingInputs();
+
+            data = xhr.responseJSON
+            if (data !== undefined) {
+                console.log(data)
+                if ('message' in data) {
+                    error = data['message']
+                } else {
+                    error = errmsg
+                }
+            } else {
+                if(err == "Forbidden") {
+                    error = 'You do not have the rights to execute this operation. Please contact the administrator.'
+                }
+                else {
+                    error = 'An unexpected error occured. Please retry. If the issue still occurs, contact your administrator.'
+                }
+
+            }
+
+            alertify.error(error);
+            return false;
+        }
+    });
+
+
+
+}
 
 
 
@@ -232,7 +347,7 @@ function refresh_value_table() {
             return false;
         }
     });
-};
+}
 
 
 

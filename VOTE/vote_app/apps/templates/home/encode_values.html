@@ -20,41 +20,71 @@
                         <div class="page-wrapper">
                             <!-- [ Main Content ] start -->
 
-                            <div class="row">
-                                <div class="col-sm-12">
+ <div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Session</h5>
+            </div>
 
-                                    <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    <!-- Left Column: Session Code Input -->
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="sessioncode">Session Code</label>
+                            <div class="position-relative">
+                                <i class="bi bi-search search-icon"></i>
+                                <input type="text"
+                                       value="{{ session_code|default_if_none:'' }}"
+                                       class="form-control ps-5"
+                                       onkeydown="tabenter(event, 'sessioncode')"
+                                       name="sessioncode"
+                                       id="sessioncode"
+                                       autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Session Info Display -->
+                    <div class="col-sm-6">
+                        <div id="extra-session-info">
+                            <h6><span id="session-title-display"></span></h6>
+                            <p><span id="speakers"></span></p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <!-- Extra inputs (initially hidden) -->
+                        <div id="extra-inputs" class="row" style="display: none;">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="attendees">Attendees At Start</label>
+                                    <input type="text" class="form-control" id="attendees" name="attendees">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="attendees20">Attendees After 20 Minutes</label>
+                                    <input type="text" class="form-control" id="attendees20" name="attendees20">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <button type="button" onclick="updateAttendeeCounts()" class="btn btn-primary mt-2" id="extra-save-btn">Update</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div> <!-- End inner row -->
+            </div> <!-- End card-block -->
+        </div> <!-- End card -->
+    </div> <!-- End col-sm-12 -->
 
 
-                                        <div class="card-header">
-                                            <h5>Session</h5>
-                                        </div>
 
-
-                                        <div class="card-block">
-
-                                            <div class="row">
-
-                                                <div class="col-sm-2 mb-4">
-                                                    <div class="form-group">
-                                                        <label for="sessioncode">Session Code</label>
-                                                        <input type="text" value="{% if session_code != None %}{{ session_code }}{% else %}{% endif %}" class="form-control" onkeydown="tabenter(event, 'sessioncode')" name="sessioncode" id="sessioncode" autocomplete="off" aria-describedby="emailHelp" >
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-6 mb-4 d-flex align-items-center">
-                                                    <span id="session-title"><strong>{{ request.session.session_title }}</strong></span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-
-
-                                    <div class="row">
     <!-- Rating Block -->
-    <div class="col-md-6 mb-3">
+    <div id="rating-block" class="col-md-6 mb-3">
         <div class="card h-100 d-flex flex-column">
             <div class="card-header">
                 <h5>Rating</h5>
@@ -65,28 +95,28 @@
                     <div class="col-sm-6 mb-3">
                         <div class="form-group">
                             <label for="overall">Overall Session Rating</label>
-                            <input type="text" class="form-control" onkeydown="tabenter(event, 'overall')" name="overall" id="overall" autocomplete="off">
+                            <input type="text" class="form-control" maxlength="1" oninput="moveToNext(this, 'speaker')" onkeydown="tabenter(event, 'overall')" name="overall" id="overall" autocomplete="off">
                         </div>
                     </div>
 
                     <div class="col-sm-6 mb-3">
                         <div class="form-group">
                             <label for="speaker">Speaker Rating</label>
-                            <input type="text" class="form-control" onkeydown="tabenter(event, 'speaker')" name="speaker" id="speaker" autocomplete="off">
+                            <input type="text" class="form-control" maxlength="1" oninput="moveToNext(this, 'material')" onkeydown="tabenter(event, 'speaker')" name="speaker" id="speaker" autocomplete="off">
                         </div>
                     </div>
 
                     <div class="col-sm-6 mb-3">
                         <div class="form-group">
                             <label for="material">Presentation Material Rating</label>
-                            <input type="text" class="form-control" onkeydown="tabenter(event, 'material')" name="material" id="material" autocomplete="off">
+                            <input type="text" class="form-control" maxlength="1" oninput="moveToNext(this, 'expectation')" onkeydown="tabenter(event, 'material')" name="material" id="material" autocomplete="off">
                         </div>
                     </div>
 
                     <div class="col-sm-6 mb-3">
                         <div class="form-group">
                             <label for="expectation">Did Presentation Meet Expectations</label>
-                            <input type="text" class="form-control" onkeydown="tabenter(event, 'expectation')" name="expectation" id="expectation" autocomplete="off">
+                            <input type="text" class="form-control" maxlength="1" oninput="moveToNext(this, 'comments')" onkeydown="tabenter(event, 'expectation')" name="expectation" id="expectation" autocomplete="off">
                         </div>
                     </div>
 
@@ -99,7 +129,7 @@
 
                     <div class="col-sm-12 mt-auto">
                         <div class="form-group">
-                            <button type="submit" onclick="save_value()" class="btn btn-primary">Save</button>
+                            <button type="submit" id="save-button" onclick="save_value()" class="btn btn-primary">Save</button>
                         </div>
                     </div>
 
@@ -123,6 +153,9 @@
             </div>
         </div>
     </div>
+
+    </div> <!-- End outer row -->
+
 </div>
 
 
@@ -156,9 +189,26 @@
 
 <script>
         $( document ).ready(function() {
+            var $sessionCode = $('#sessioncode');
+            if ($sessionCode.val().trim() === '') {
+                $sessionCode.focus();
+            }
+            validateSessionCode();
             refresh_value_table();
             return;
         });
+</script>
+
+<script>
+    function moveToNext(currentInput, nextId) {
+        const value = currentInput.value;
+        if (value.length === 1) {
+            const nextInput = document.getElementById(nextId);
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    }
 </script>
 
 <script type="text/javascript">
@@ -167,8 +217,7 @@
     function tabenter(e, id) {
         if (e.key === 'Tab') {
             if (id === 'sessioncode') {
-                refresh_value_table();
-                overall.focus();
+                validateSessionCode();
                 e.preventDefault();
                 return;
             }
@@ -193,8 +242,7 @@
 
         if (e.key === 'Enter') {
             if (id === 'sessioncode') {
-                refresh_value_table();
-                overall.focus();
+                validateSessionCode();
                 return;
             }
             save_value();
@@ -202,6 +250,56 @@
         }
 
     }
+
+    function disableRatingInputs() {
+        $('#rating-block input, #rating-block textarea').prop('disabled', true);
+        $('#save-button').prop('disabled', true);
+        $('#overall').val('');
+        $('#speaker').val('');
+        $('#material').val('');
+        $('#expectation').val('');
+        $('#comments').val('');
+
+    }
+
+    function enableRatingInputs() {
+        $('#rating-block input, #rating-block textarea').prop('disabled', false);
+        $('#save-button').prop('disabled', false);
+    }
+
+    function validateSessionCode() {
+        const code = $('#sessioncode').val().trim();
+
+        if (code === '') {
+            $('#session-title-display').text('');
+
+            $('#speakers').text('');
+
+            updateSessionInfo("");
+            disableRatingInputs();
+            $('#results').html('');
+
+        }
+
+        check_session();
+
+
+    }
+
+    function updateSessionInfo(title) {
+        const extraInputs = document.getElementById('extra-inputs');
+
+        if (title !== '') {
+            // Show the extra inputs and button
+            extraInputs.style.display = 'flex'; // or 'block' for vertical
+        } else {
+            // Hide the extra inputs and button
+            extraInputs.style.display = 'none';
+        }
+    }
+
+
+
 </script>
 
 {% endblock javascripts %}

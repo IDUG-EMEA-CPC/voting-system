@@ -33,6 +33,7 @@ urlpatterns = [
 
     path('refresh_moderator', views_moderator.refresh_moderator, name='refresh_moderator'),
 
-
+    path('check_sessioncode', views_sessions.check_session_code, name='check_session_code'),
+    path('update_attendees', views_sessions.update_attendees, name='update_attendees'),
 
 ]

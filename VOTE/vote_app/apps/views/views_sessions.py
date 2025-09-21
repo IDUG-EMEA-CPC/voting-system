@@ -2,7 +2,7 @@ from django.template import loader
 from django.shortcuts import redirect, render
 from ..views.views_login import login
 from ..score.utils import RequestParameters, retrieve_value_from_session, init_response_context
-from ..score.models import Moderators
+from ..score.models import Moderators, Session
 from django.http import JsonResponse
 from rest_framework import status
 
@@ -49,6 +49,74 @@ def refresh_sessions(request):
             RequestConfig(request, paginate={"per_page": 10}).configure(sessions)
 
         return render(request, 'tables/table_session.html', {'items': sessions})
+    else:
+        content = {
+            'message': 'An error occured'
+        }
+        return JsonResponse(content, status=status.HTTP_400_BAD_REQUEST)
+
+
+def check_session_code(request):
+    if request.method == 'POST':
+        # retrieving parameters
+        x = RequestParameters()  # generic class for request parameters
+
+        for key in ['sessioncode']:
+            setattr(x, key, retrieve_value_from_session(request, key))
+
+        context = init_response_context(request)
+
+        session = Session.objects.all().filter(session_code=x.sessioncode).values()
+        moderator = Moderators.objects.all().filter(session_code=x.sessioncode).values()
+
+        if session:
+            context['exists'] = True
+            context['title'] = session[0]['session_title']
+
+            context['speaker'] = moderator[0]['speaker']
+            context['subject'] = moderator[0]['subject_desc']
+
+            context['attendees'] = session[0]['start_count']
+            context['attendees20'] = session[0]['mid_count']
+            context['comments'] = session[0]['comments']
+        else:
+            context['exists'] = False
+
+        context['message'] = 'OK'
+
+        return JsonResponse(context, status=status.HTTP_200_OK)
+    else:
+        content = {
+            'message': 'An error occured'
+        }
+        return JsonResponse(content, status=status.HTTP_400_BAD_REQUEST)
+
+
+def update_attendees(request):
+    if request.method == 'POST':
+        # retrieving parameters
+        x = RequestParameters()  # generic class for request parameters
+
+        for key in ['sessioncode', 'attendees', 'attendees20']:
+            setattr(x, key, retrieve_value_from_session(request, key))
+
+        context = init_response_context(request)
+
+        session = Session.objects.get(session_code=x.sessioncode)
+
+        if session:
+            session.start_count = x.attendees if x.attendees else None
+            session.mid_count = x.attendees20 if x.attendees20 else None
+            session.save()
+
+            context['message'] = 'OK'
+
+            return JsonResponse(context, status=status.HTTP_200_OK)
+        else:
+            content = {
+                'message': 'An error occured'
+            }
+            return JsonResponse(content, status=status.HTTP_400_BAD_REQUEST)
     else:
         content = {
             'message': 'An error occured'
