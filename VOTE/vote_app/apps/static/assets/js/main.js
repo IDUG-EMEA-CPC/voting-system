@@ -106,7 +106,7 @@ function save_value() {
 
 
 function save_data() {
-    console.log('overall', $('#overall').val());
+    //console.log('overall', $('#overall').val());
     $.ajax({
         beforeSend: function(request) {
             request.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
@@ -115,7 +115,7 @@ function save_data() {
         type : "POST",
         data : get_data(),
         success : function(data) {
-            console.log("success");
+            //console.log("success");
             alertify.success('New vote inserted.')
             refresh_value_table();
 
@@ -128,7 +128,7 @@ function save_data() {
         error : function(xhr,errmsg,err) {
             data = xhr.responseJSON
             if (data !== undefined) {
-                console.log(data)
+                //console.log(data)
                 if ('message' in data) {
                     error = data['message']
                 } else {
@@ -162,7 +162,7 @@ function get_data() {
 }
 
 function reset(){
-   console.log('resetting');
+   //console.log('resetting');
 
    $('#overall').val('');
    $('#speaker').val('');
@@ -219,7 +219,7 @@ function check_session(){
 
             data = xhr.responseJSON
             if (data !== undefined) {
-                console.log(data)
+                //console.log(data)
                 if ('message' in data) {
                     error = data['message']
                 } else {
@@ -277,7 +277,7 @@ function updateAttendeeCounts() {
 
             data = xhr.responseJSON
             if (data !== undefined) {
-                console.log(data)
+                //console.log(data)
                 if ('message' in data) {
                     error = data['message']
                 } else {
@@ -306,7 +306,7 @@ function updateAttendeeCounts() {
 
 
 function refresh_value_table() {
-    console.log('refresh')
+    //console.log('refresh')
 
     $.ajax({
         beforeSend: function(request) {
@@ -317,9 +317,9 @@ function refresh_value_table() {
         data : get_data(),
 
         success : function(data) {
-            console.log("success");
+            //console.log("success");
             $("#results").html(data);
-            console.log("success");
+            //console.log("success");
         },
 
         // handle a non-successful response
@@ -327,7 +327,7 @@ function refresh_value_table() {
 
             data = xhr.responseJSON
             if (data !== undefined) {
-                console.log(data)
+                //console.log(data)
                 if ('message' in data) {
                     error = data['message']
                 } else {
@@ -366,7 +366,7 @@ function value_edit(sessioneval_id) {
         },
 
         success : function(data) {
-            console.log("success");
+            //console.log("success");
             $("#modal-view").html(data);
             $("#modal-view").show();
 

@@ -33,7 +33,7 @@ $.ajaxSetup({
 
 
 function refresh_moderator_table(resetPage = false) {
-    console.log('refresh')
+    //console.log('refresh')
 
     let url = new URL(window.location.href);
 
@@ -54,7 +54,7 @@ function refresh_moderator_table(resetPage = false) {
         },
 
         success : function(data) {
-            console.log("success");
+            //console.log("success");
             $("#results_moderators").html(data);
         },
 
@@ -63,7 +63,7 @@ function refresh_moderator_table(resetPage = false) {
 
             data = xhr.responseJSON
             if (data !== undefined) {
-                console.log(data)
+                //console.log(data)
                 if ('message' in data) {
                     error = data['message']
                 } else {
@@ -100,7 +100,7 @@ function value_edit(session_id) {
         },
 
         success : function(data) {
-            console.log("success");
+            //console.log("success");
             $("#modal-view").html(data);
             $("#modal-view").show();
 
@@ -143,7 +143,7 @@ function save_edit_value(session_id) {
         },
 
         success : function(data) {
-            console.log("success");
+            //console.log("success");
             alertify.success('Moderator Updated')
             close_modal()
             refresh_moderator_table()
@@ -153,7 +153,7 @@ function save_edit_value(session_id) {
         error : function(xhr,errmsg,err) {
             data = xhr.responseJSON
             if (data !== undefined) {
-                console.log(data)
+                //console.log(data)
                 if ('message' in data) {
                     error = data['message']
                 } else {
