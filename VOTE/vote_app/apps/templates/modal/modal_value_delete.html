@@ -47,7 +47,7 @@
                         <div class="col-sm-12 mb-4">
                             <div class="form-group">
                                 <label for="comments">Comments</label>
-                                <textarea type="text" disabled class="form-control" name="comments" id="comments" autocomplete="off" aria-describedby="emailHelp" >{% if comments != None %}{{ comments }}{% else %}{% endif %}</textarea>
+                                <textarea type="text" maxlength="400" rows="3" disabled class="form-control" name="comments" id="comments" autocomplete="off" aria-describedby="emailHelp" >{% if comments != None %}{{ comments }}{% else %}{% endif %}</textarea>
                             </div>
                         </div>
 
