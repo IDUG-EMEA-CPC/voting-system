@@ -190,3 +190,5 @@ CSRF_COOKIE_SECURE = True
 USE_X_FORWARDED_HOST = True
 
 CSRF_TRUSTED_ORIGINS = ['https://moderator.idugemea.eu']
+
+LOGIN_URL = '/signup'
