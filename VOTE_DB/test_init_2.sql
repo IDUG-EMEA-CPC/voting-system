@@ -298,7 +298,7 @@ FROM
     (   SELECT
             x."SESSION_EVENT",
             x."SESSION_CODE",
-            ROUND(AVG(x."SCORE_TOTAL" / x."SCORE_COUNT"), 2) AS "RATING"
+            ROUND(AVG(x."SCORE_TOTAL" * 1.0 / x."SCORE_COUNT"), 2) AS "RATING"
         FROM
             (   SELECT
                     "SESSION_EVENT",
@@ -567,7 +567,6 @@ VALUES
 ('EMEA2025','A17', '10/30/2025', '11:30', '12:30', 'SESS-1', 'Claims, Drains and Automobiles', '1', 'Marcus', 'Davage', 'BMC Software Ltd', NULL, NULL, NULL, '3'),
 
 
-
 ('EMEA2025','B2', '10/27/2025', '11:30', '12:30', 'SESS-30', 'RUNSTATS Master - reloaded', '1', 'Roy', 'Boxwell', 'Software Engineering GmbH', NULL, NULL, NULL, '6'),
 ('EMEA2025','B3', '10/27/2025', '14:00', '15:00', 'SESS-203', 'Key Performance Updates, zSynergy and Best Practices for Db2 for z/OS', '1', 'Akiko', 'Hoshikawa', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','B4', '10/27/2025', '15:20', '16:20', 'SESS-63', 'Taming Page Splits: Reduced Stress for DBAs in Db2 13', '1', 'Saurabh', 'Pandey', 'BMC Software', NULL, NULL, NULL, '3'),
@@ -579,16 +578,16 @@ VALUES
 ('EMEA2025','B10', '10/29/2025', '10:20', '11:20', 'SESS-267', 'Db2 for z/OS Tablespace Update', '1', 'David', 'Simpson', 'Huntington Bank', NULL, NULL, NULL, '1'),
 ('EMEA2025','B11', '10/29/2025', '11:30', '12:30', 'SESS-59', 'Personal Experience: 40 Years of Battle Scars from Managing Db2 for z/OS', '1', 'Steen', 'Rasmussen', 'Broadcom', NULL, NULL, NULL, '4'),
 ('EMEA2025','B12', '10/29/2025', '14:00', '15:00', 'SESS-238', 'in memory table : what did you expect ?', '1', 'Laurent', 'Kuperberg', 'SQLK', NULL, NULL, NULL, '1'),
-('EMEA2025','B13', '10/29/2025', '16:30', '17:30', 'SESS-197', 'Db2 for z/OS Security Basics', '1', 'Gayathiri', 'Chandran', 'IBM', NULL, NULL, NULL, '2'),
+('EMEA2025','B13', '10/29/2025', '16:30', '17:30', 'SESS-23', 'Db2 Basics: An introduction to External Tables including remote storage 💾', '2', 'Henrik', 'Loeser', 'IBM Germany', NULL, NULL, NULL, '2'),
 ('EMEA2025','B15', '10/30/2025', '09:00', '10:00', 'SESS-170', 'Who’s in Your DB2? Auditing z/OS Like a Mainframe Maestro', '1', 'Jørn', 'Thyssen', 'Rocket Software', 'Christoph', 'Theisen', 'Rocket Software', '5'),
 ('EMEA2025','B16', '10/30/2025', '10:20', '11:20', 'SESS-140', 'ISBANK''S Journey to implement CDC IIDR Remote Capture with a Resilient Architecture', '1', 'ONDER', 'CAGATAY', 'İŞBANK A.Ş', 'GULFEM', 'OGUTGEN', 'IBM', '1'),
 ('EMEA2025','B17', '10/30/2025', '11:30', '12:30', 'SESS-215', 'Automating Excellence: Real-world z/OSMF Workflows for Efficient Provisioning and Maintenance (a Db2 Use Case)', '1', 'Josiane ', 'Rodrigues da Silva Ramalho', 'Broadcom Software', NULL, NULL, NULL, '4'),
 
 
-
 ('EMEA2025','C1', '10/27/2025', '10:20', '11:20', 'SESS-84', 'Db2 Latest from the Lab', '2', 'Mike', 'Springgay', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','C2', '10/27/2025', '11:30', '12:30', 'SESS-133', 'Latest from the Lab on Db2 Warehousing + Lakehouse', '2', 'David', 'Kalmuk', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','C3', '10/27/2025', '14:00', '15:00', 'SESS-247', 'The evolution of the AI Query Tuner agent behind DBAssist', '2', 'Calisto', 'Zuzarte', 'IBM', NULL, NULL, NULL, '2'),
+('EMEA2025','C4', '10/27/2025', '15:20', '16:20', 'SESS-278', 'Db2 12.1.3 - Latest News', '2', 'David', 'Kalmuk', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','C5', '10/27/2025', '16:30', '17:30', 'SESS-210', 'Db2 Availability & Recovery: 12.1 Highlights of What''s New', '2', 'Michael', 'Roecken', 'IBM Canada Ltd.', NULL, NULL, NULL, '2'),
 ('EMEA2025','C6', '10/28/2025', '10:20', '11:20', 'SESS-113', 'SQL in Action - Mastering & Measuring Data Removal', '2', 'Michael', 'Tiefenbacher', 'mip GmbH', NULL, NULL, NULL, '1'),
 ('EMEA2025','C7', '10/28/2025', '11:30', '12:30', 'SESS-249', 'Tuning Queries for Performance Using Examples', '2', 'Calisto', 'Zuzarte', 'IBM', NULL, NULL, NULL, '2'),
@@ -603,24 +602,22 @@ VALUES
 ('EMEA2025','C17', '10/30/2025', '11:30', '12:30', 'SESS-268', 'This isn''t just another restore tutorial. It''s a live-fire tale of encrypted Db2 databases, AWS mounts, and GSK gremlins — all tamed in OpenShift’s wild, wild west.', '2', 'Bobby', 'Proffitt', 'DBA/I TopGun', NULL, NULL, NULL, '1'),
 
 
-
 ('EMEA2025','D2', '10/27/2025', '11:30', '12:30', 'SESS-22', 'Turn red into blue', '2', 'Olaf', 'Stephan', 'BaFin', 'Drik', 'Fechner', 'IBM', '1'),
 ('EMEA2025','D3', '10/27/2025', '14:00', '15:00', 'SESS-69', 'Review key enhancements for Db2U in modernizing Db2 containerization footprint.', '2', 'Vijaya', 'Katikireddy', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','D4', '10/27/2025', '15:20', '16:20', 'SESS-137', 'Becoming an Expert DBA: Best use of Db2 Features, Improvements & Tips', '2', 'Nemi', 'Agrawal', 'Data Storm Inc', NULL, NULL, NULL, '1'),
 ('EMEA2025','D5', '10/27/2025', '16:30', '17:30', 'SESS-145', 'Range Partitioning - Overview, Use cases, Tips and Tricks', '2', 'Carola', 'Langwald', 'IBM Deutschland R&D GmbH', 'Phil', 'King', 'IBM', '2'),
 ('EMEA2025','D6', '10/28/2025', '10:20', '11:20', 'SESS-107', 'Db2 Automatic Statistics Deep Dive', '2', 'John', 'Hornibrook', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','D7', '10/28/2025', '11:30', '12:30', 'SESS-189', 'Db2 – the database of choice for High Availability in a Hybrid/Multi-Cloud Environment', '2', 'Damir', 'Wilder', 'Triton Consulting Ltd.', 'Iqbal', 'Goralwalla', 'Triton Consulting Ltd.', '1'),
-('EMEA2025','D8', '10/28/2025', '14:00', '15:00', 'SESS-23', 'Db2 Basics: An introduction to External Tables including remote storage 💾', '2', 'Henrik', 'Loeser', 'IBM Germany', NULL, NULL, NULL, '2'),
+('EMEA2025','D8', '10/28/2025', '14:00', '15:00', 'SESS-43', 'Exploring GenAI, RAG, and Semantic Search with Db2 12.1’s Vector Store', '2', 'Marcin', 'Marczewski', 'IBM Poland', NULL, NULL, NULL, '2'),
 ('EMEA2025','D9', '10/28/2025', '16:30', '17:30', 'SESS-206', 'Monitoring the new multi-tier storage architecture when using Native Cloud Object Storage', '2', 'Robert', 'Hooper', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','D10', '10/29/2025', '10:20', '11:20', 'SESS-111', 'Working with EXPLAIN - Alternatives to Command line and Visual Explain', '2', 'Joachim', 'Klassen', 'LIS.TEC GmbH', NULL, NULL, NULL, '1'),
 ('EMEA2025','D11', '10/29/2025', '11:30', '12:30', 'SESS-266', 'Using GenAI to quickly build Db2 live monitoring', '2', 'Martin', 'Heitkämper', 'Arvato Systems GmbH', NULL, NULL, NULL, '1'),
 ('EMEA2025','D12', '10/29/2025', '14:00', '15:00', 'SESS-85', 'V12 Db2 SQL Extensions: Tenant, Vectors, Lakehouse and more', '2', 'Mike', 'Springgay', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','D13', '10/29/2025', '16:30', '17:30', 'SESS-77', 'IBM Db2 for AI: Building AI Systems with Db2', '2', 'Shaikh', 'Quader', 'IBM', NULL, NULL, NULL, '2'),
-('EMEA2025','D14', '10/29/2025', '17:40', '18:40', 'SESS-43', 'Exploring GenAI, RAG, and Semantic Search with Db2 12.1’s Vector Store', '2', 'Marcin', 'Marczewski', 'IBM Poland', NULL, NULL, NULL, '2'),
+('EMEA2025','D14', '10/29/2025', '17:40', '18:40', 'SESS-197', 'Db2 for z/OS Security Basics', '1', 'Gayathiri', 'Chandran', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','D15', '10/30/2025', '09:00', '10:00', 'SESS-7', 'Taking Db2 pureScale to the next level, deploying on z/Linux or LinuxONE', '2', 'Dale', 'McInnis', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','D16', '10/30/2025', '10:20', '11:20', 'SESS-251', 'BACKUP/RESTORE performance insights.', '2', 'Aleksandr', 'Veremev', 'VereData', NULL, NULL, NULL, '1'),
 ('EMEA2025','D17', '10/30/2025', '11:30', '12:30', 'SESS-132', 'Advanced Performance Diagnostics for SQL', '2', 'David', 'Kalmuk', 'IBM', NULL, NULL, NULL, '2'),
-
 
 
 ('EMEA2025','E2', '10/27/2025', '11:30', '12:30', 'SESS-205', 'Performing Db2 HADR Upgrades Made Even More Easy', '2', 'Michael', 'Roecken', 'IBM Canada Ltd.', NULL, NULL, NULL, '2'),
@@ -633,14 +630,12 @@ VALUES
 ('EMEA2025','E9', '10/28/2025', '16:30', '17:30', 'SESS-204', 'Unlocking the Power of AI with Db2 for z/OS', '1', 'Akiko', 'Hoshikawa', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','E10', '10/29/2025', '10:20', '11:20', 'SESS-121', 'A Deep dive into Db2 Connect Best Practices', '4', 'Shilu', 'Mathai', 'Rocket Software', NULL, NULL, NULL, '5'),
 ('EMEA2025','E11', '10/29/2025', '11:30', '12:30', 'SESS-241', 'The Db2 for z/OS Agent -  Lets have a Chat with the Catalog!', '5', 'Daniel', 'Martin', 'IBM', NULL, NULL, NULL, '2'),
-('EMEA2025','E12', '10/29/2025', '14:00', '15:00', 'SESS-254', 'Unusual indexes and their usage in Db2', '2', 'Andreas', 'Weininger', 'IBM', NULL, NULL, NULL, '2'),
+('EMEA2025','E12', '10/29/2025', '14:00', '15:00', 'SESS-62', 'Mastering SQL Performance on IBM Z: Analyzing and Optimizing Queries for Maximum Throughput', '1', 'Saurabh', 'Pandey', 'BMC Software', NULL, NULL, NULL, '3'),
 ('EMEA2025','E13', '10/29/2025', '16:30', '17:30', 'SESS-233', 'Here''s Looking at YOU, Db2!', '2', 'Ken', 'Shaffer', 'Aerodata Inc. ', NULL, NULL, NULL, '1'),
 ('EMEA2025','E14', '10/29/2025', '17:40', '18:40', 'SESS-130', 'The ins and outs of High Performance DBATs', '1', 'Bart', 'Steegmans', 'IBM', 'Gareth', 'Copplestone-Jones ', 'Triton Consulting', '2'),
 ('EMEA2025','E15', '10/30/2025', '09:00', '10:00', 'SESS-80', 'Achieving Resilience with DORA and Db2 Tools: Enhancing Operational Continuity and Compliance', '1', 'Julia', 'Carter', 'Broadcom', 'Jose ', 'Arias', 'Broadcom', '4'),
 ('EMEA2025','E16', '10/30/2025', '10:20', '11:20', 'SESS-211', 'Native cloud object storage in Db2 Warehouse: AWS or Azure ?', '2', 'Robert', 'Hooper', 'IBM', 'Christian', 'Garcia-Arellano', 'IBM', '2'),
 ('EMEA2025','E17', '10/30/2025', '11:30', '12:30', 'SESS-46', 'Adopting Agile Development Practices with Db2 for z/OS - Customer Perspective', '1', 'Sueli', 'Almeida', 'IBM Silicon Valley Lab', NULL, NULL, NULL, '2'),
-
-
 
 
 ('EMEA2025','F2', '10/27/2025', '11:30', '12:30', 'SESS-65', 'Strategies for Making Db2 Data Accessible with APIs', '1', 'Chris', 'Crone', 'Broadcom', NULL, NULL, NULL, '4'),
@@ -654,15 +649,26 @@ VALUES
 ('EMEA2025','F10', '10/29/2025', '10:20', '11:20', 'SESS-26', 'How to access Db2 for z/OS and other Z data in the cloud', '4', 'Cuneyt', 'Goksu', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','F11', '10/29/2025', '11:30', '12:30', 'SESS-108', 'Desperate Measures - How to Relieve the Db2 Optimizer of its Duties', '2', 'John', 'Hornibrook', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','F12', '10/29/2025', '14:00', '15:00', 'SESS-66', 'Enhance Db2 Performance with Mult-Row Processing Techniques', '1', 'Chris', 'Crone', 'Broadcom', NULL, NULL, NULL, '4'),
-('EMEA2025','F13', '10/29/2025', '16:30', '17:30', 'SESS-62', 'Mastering SQL Performance on IBM Z: Analyzing and Optimizing Queries for Maximum Throughput', '1', 'Saurabh', 'Pandey', 'BMC Software', NULL, NULL, NULL, '3'),
+('EMEA2025','F13', '10/29/2025', '16:30', '17:30', 'SESS-254', 'Unusual indexes and their usage in Db2', '2', 'Andreas', 'Weininger', 'IBM', NULL, NULL, NULL, '2'),
 ('EMEA2025','F14', '10/29/2025', '17:40', '18:40', 'SESS-188', 'Create Stored Procedure to ''Reorg Table'' including table function for Select Reorg() and REST-Services', '1', 'Veit', 'Blaeser', 'BarmeniaGothaer', NULL, NULL, NULL, '1'),
 ('EMEA2025','F15', '10/30/2025', '09:00', '10:00', 'SESS-214', 'Pedal to The Metal - this is not your Daddy''s Accelerator!', '1', 'Adrian', 'Collett', 'Expertise4IT s.r.l.', NULL, NULL, NULL, '1'),
 ('EMEA2025','F16', '10/30/2025', '10:20', '11:20', 'SESS-182', 'Modernizing Db2 for z/OS System Management with Ansible', '1', 'Manoj Kumar', 'Jadwani', 'BMC Software', 'Hardik', 'Chawda', 'BMC Software', '3'),
-('EMEA2025','F17', '10/30/2025', '11:30', '12:30', 'SESS-235', 'REST API: A New Way to Access Db2', '2', 'Andreas', 'Weininger', 'IBM', NULL, NULL, NULL, '2');
+('EMEA2025','F17', '10/30/2025', '11:30', '12:30', 'SESS-235', 'REST API: A New Way to Access Db2', '2', 'Andreas', 'Weininger', 'IBM', NULL, NULL, NULL, '2')
+
+
+
+extra
+
+('EMEA2025','B14', '10/29/2025', '17:40', '18:40', 'SESS-279', 'Fun with SQL (IDUG content Committee)', '4', 'Julia', 'Carter', 'Broadcom', NULL, NULL, NULL, '4')
 
 
 
 
+
+remove
+
+('EMEA2025','D6', '10/28/2025', '10:20', '11:20', 'SESS-107', 'Db2 Automatic Statistics Deep Dive', '2', 'John', 'Hornibrook', 'IBM', NULL, NULL, NULL, '2'),
+('EMEA2025','F11', '10/29/2025', '11:30', '12:30', 'SESS-108', 'Desperate Measures - How to Relieve the Db2 Optimizer of its Duties', '2', 'John', 'Hornibrook', 'IBM', NULL, NULL, NULL, '2'),
 
 
 
