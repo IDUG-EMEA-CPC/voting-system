@@ -93,6 +93,17 @@
         } else {
             refresh_moderator_table(false); // Keep current page
         }
+
+        // Apply filter to cards immediately (no reload)
+        $('#card-list .card').each(function () {
+            const content = $(this).data('search');
+            if (content.includes(currentSearch)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+
     }
 
     $(document).ready(function () {

@@ -48,7 +48,11 @@ def moderator(request):
 
     # Build table
     sessions = ModeratorsTable(sessions_items)
-    RequestConfig(request, paginate={"per_page": 10}).configure(sessions)
+    # Decide pagination only for table (desktop)
+    paginate = {"per_page": 10}
+    if request.headers.get('X-Mobile-View') == 'true':
+        paginate = {}  # Show all in mobile
+    RequestConfig(request, paginate=paginate).configure(sessions)
 
     context = {
         'segment': 'moderator',
@@ -74,8 +78,11 @@ def refresh_moderators(request):
 
         request.session['currentSearch'] = x.search  # persist search
 
-        # Determine pagination
-        if 'page=' in x.url:
+        # Detect mobile view from header
+        is_mobile = request.headers.get('X-Mobile-View') == 'true'
+
+        # Determine pagination only if NOT mobile
+        if not is_mobile and 'page=' in x.url:
             pos = x.url.index('page=') + len('page=')
             page = x.url[pos:]
         else:
@@ -83,16 +90,27 @@ def refresh_moderators(request):
 
         # Filter queryset
         if x.search:
-            sessions_items = Moderators.objects.filter(search__icontains=x.search).order_by('date', 'session_time', 'session_code')
+            sessions_items = Moderators.objects.filter(
+                search__icontains=x.search
+            ).order_by('date', 'session_time', 'session_code')
         else:
             sessions_items = Moderators.objects.all().order_by('date', 'session_time', 'session_code')
 
+        # Build table
         sessions = ModeratorsTable(sessions_items)
-        RequestConfig(request, paginate={"per_page": 10}).configure(sessions)
-        sessions.page = sessions.page.paginator.get_page(page)
+
+        if not is_mobile:
+            # Set pagination for desktop
+            request.GET = request.GET.copy()
+            request.GET['page'] = page
+            RequestConfig(request, paginate={"per_page": 10}).configure(sessions)
+        else:
+            # No pagination for mobile
+            RequestConfig(request, paginate={"per_page": 9999}).configure(sessions)  # Or just don’t paginate at all
 
         return render(request, 'tables/table_moderator.html', {'items': sessions})
 
     return JsonResponse({'message': 'An error occurred'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 

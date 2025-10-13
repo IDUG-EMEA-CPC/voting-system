@@ -48,6 +48,9 @@ function refresh_moderator_table(resetPage = false) {
         },
         url : "refresh_moderators",
         type : "POST",
+        headers: {
+            'X-Mobile-View': window.innerWidth < 768 ? 'true' : 'false'
+        },
         data : {
                 url : url.toString(),
                 search : currentSearch
@@ -94,6 +97,9 @@ function value_edit(session_id) {
         },
         url : "get_modal_edit_value",
         type : "POST",
+                headers: {
+            'X-Mobile-View': window.innerWidth < 768 ? 'true' : 'false'
+        },
         data : {
             session_id : session_id
 
@@ -137,8 +143,8 @@ function save_edit_value(session_id) {
         type : "POST",
         data : {
             session_id : session_id,
-            moderator_name : $('#modal-content #moderator_name').val(),
-            moderator_email : $('#modal-content #moderator_email').val()
+            moderator_name: $('#moderator_name').val(),
+            moderator_email: $('#moderator_email').val()
 
         },
 
